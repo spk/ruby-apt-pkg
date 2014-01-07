@@ -4,13 +4,14 @@
 
 ~~~ console
 aptitude install libapt-pkg-dev ruby2.0-dev
-gem install bundler
-bundle install
+gem install apt-pkg
 ~~~
 
 ## BUILD
 
 ~~~ console
+gem install bundler
+bundle install
 bundle exec rake compile
 ~~~
 
