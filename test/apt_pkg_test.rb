@@ -99,4 +99,13 @@ describe Debian::AptPkg do
       Debian::AptPkg.check_domain_list("git.debian.org", "spkdev.net").must_equal false
     end
   end
+
+
+  describe 'Debian::AptPkg.architectures' do
+    it 'return an array' do
+      arches = Debian::AptPkg.architectures
+      arches.must_be_instance_of Array
+      arches.wont_be_empty
+    end
+  end
 end
