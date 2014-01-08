@@ -55,7 +55,7 @@ describe Debian::AptPkg do
       end
     end
     describe 'Errors' do
-      it 'should raise type error' do
+      it 'should raise argument error with bad comparison' do
         lambda { Debian::AptPkg.check_dep('1', 'bad', '2') }.must_raise ArgumentError
       end
     end
