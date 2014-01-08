@@ -14,37 +14,37 @@ describe Debian::AptPkg do
   describe 'Debian::AptPkg.check_dep' do
     describe 'LessEq' do
       it 'should compare Debian version' do
-        Debian::AptPkg.check_dep('1', Debian::AptPkg::LESS_EQ, '2').must_equal true
-        Debian::AptPkg.check_dep('2', Debian::AptPkg::LESS_EQ, '1').must_equal false
-        Debian::AptPkg.check_dep('1', Debian::AptPkg::LESS_EQ, '1').must_equal true
+        Debian::AptPkg.check_dep('1', '<=', '2').must_equal true
+        Debian::AptPkg.check_dep('2', '<=', '1').must_equal false
+        Debian::AptPkg.check_dep('1', '<=', '1').must_equal true
       end
     end
     describe 'GreaterEq' do
       it 'should compare Debian version' do
-        Debian::AptPkg.check_dep('1', Debian::AptPkg::GREATER_EQ, '2').must_equal false
-        Debian::AptPkg.check_dep('2', Debian::AptPkg::GREATER_EQ, '1').must_equal true
-        Debian::AptPkg.check_dep('1', Debian::AptPkg::GREATER_EQ, '1').must_equal true
+        Debian::AptPkg.check_dep('1', '>=', '2').must_equal false
+        Debian::AptPkg.check_dep('2', '>=', '1').must_equal true
+        Debian::AptPkg.check_dep('1', '>=', '1').must_equal true
       end
     end
     describe 'Less' do
       it 'should compare Debian version' do
-        Debian::AptPkg.check_dep('1', Debian::AptPkg::LESS, '2').must_equal true
-        Debian::AptPkg.check_dep('2', Debian::AptPkg::LESS, '1').must_equal false
-        Debian::AptPkg.check_dep('1', Debian::AptPkg::LESS, '1').must_equal false
+        Debian::AptPkg.check_dep('1', '<', '2').must_equal true
+        Debian::AptPkg.check_dep('2', '<', '1').must_equal false
+        Debian::AptPkg.check_dep('1', '<', '1').must_equal false
       end
     end
     describe 'Greater' do
       it 'should compare Debian version' do
-        Debian::AptPkg.check_dep('1', Debian::AptPkg::GREATER, '2').must_equal false
-        Debian::AptPkg.check_dep('2', Debian::AptPkg::GREATER, '1').must_equal true
-        Debian::AptPkg.check_dep('1', Debian::AptPkg::GREATER, '1').must_equal false
+        Debian::AptPkg.check_dep('1', '>', '2').must_equal false
+        Debian::AptPkg.check_dep('2', '>', '1').must_equal true
+        Debian::AptPkg.check_dep('1', '>', '1').must_equal false
       end
     end
     describe 'Equals' do
       it 'should compare Debian version' do
-        Debian::AptPkg.check_dep('1', Debian::AptPkg::EQUALS, '2').must_equal false
-        Debian::AptPkg.check_dep('2', Debian::AptPkg::EQUALS, '1').must_equal false
-        Debian::AptPkg.check_dep('1', Debian::AptPkg::EQUALS, '1').must_equal true
+        Debian::AptPkg.check_dep('1', '=', '2').must_equal false
+        Debian::AptPkg.check_dep('2', '=', '1').must_equal false
+        Debian::AptPkg.check_dep('1', '=', '1').must_equal true
       end
     end
     describe 'NotEquals' do
@@ -52,6 +52,11 @@ describe Debian::AptPkg do
         Debian::AptPkg.check_dep('1', Debian::AptPkg::NOT_EQUALS, '2').must_equal true
         Debian::AptPkg.check_dep('2', Debian::AptPkg::NOT_EQUALS, '1').must_equal true
         Debian::AptPkg.check_dep('1', Debian::AptPkg::NOT_EQUALS, '1').must_equal false
+      end
+    end
+    describe 'Errors' do
+      it 'should raise type error' do
+        lambda { Debian::AptPkg.check_dep('1', 'bad', '2') }.must_raise ArgumentError
       end
     end
   end

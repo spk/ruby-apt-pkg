@@ -12,7 +12,8 @@ gem install apt-pkg
 ~~~ ruby
 require 'apt_pkg'
 
-Debian::AptPkg.check_dep('1', Debian::AptPkg::LESS_EQ, '2') # => true
+Debian::AptPkg.check_dep('1', '<', '2') # => true
+Debian::AptPkg.check_dep('1', Debian::AptPkg::NOT_EQUALS, '2') # => true
 Debian::AptPkg.check_domain_list("alioth.debian.org", "debian.net,debian.org") # => true
 Debian::AptPkg.cmp_version('1.1', '1.0') # => 1
 Debian::AptPkg.size_to_str(10000) # => '10.0 k'
