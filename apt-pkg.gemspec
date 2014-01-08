@@ -4,13 +4,11 @@ Gem::Specification.new do |s|
 
   s.authors = ["Laurent Arnoud"]
   s.description = %q{Ruby interface to apt-pkg}
-  s.summary = s.description
+  s.summary = %q{Ruby interface to libapt-pkg}
   s.email = %q{laurent@spkdev.net}
   s.license = "MIT"
   s.extensions = ["ext/apt_pkg/extconf.rb"]
-  s.extra_rdoc_files = [
-    "README.md"
-  ]
+  s.extra_rdoc_files = Dir['*.md', 'ext/**/*.cpp']
   s.files = `git ls-files`.split($\)
   s.homepage = %q{http://github.com/spk/ruby-apt-pkg}
   s.rdoc_options = ["--charset=UTF-8"]
