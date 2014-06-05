@@ -136,14 +136,14 @@ VALUE size_to_str(VALUE self, VALUE size) {
  *
  * Parse the string input and return a boolean.
  *
- *   Debian::AptPkg.string_to_bool('yes') # => 1
- *   Debian::AptPkg.string_to_bool('no') # => 0
- *   Debian::AptPkg.string_to_bool('no-recognized') # => -1
+ *   Debian::AptPkg.string_to_bool('yes') # => true
+ *   Debian::AptPkg.string_to_bool('no') # => false
+ *   Debian::AptPkg.string_to_bool('no-recognized') # => false
  *
  **/
 static
 VALUE string_to_bool(VALUE self, VALUE text) {
-	return INT2FIX(StringToBool(StringValuePtr(text)));
+	return INT2BOOL(StringToBool(StringValuePtr(text)) == 1);
 }
 
 /*

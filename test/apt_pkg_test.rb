@@ -87,9 +87,9 @@ describe Debian::AptPkg do
 
   describe 'Debian::AptPkg.string_to_bool' do
     it 'Parse the string input and return a boolean' do
-      Debian::AptPkg.string_to_bool('yes').must_equal 1
-      Debian::AptPkg.string_to_bool('no').must_equal 0
-      Debian::AptPkg.string_to_bool('no-recognized').must_equal -1
+      Debian::AptPkg.string_to_bool('yes').must_equal true
+      Debian::AptPkg.string_to_bool('no').must_equal false
+      Debian::AptPkg.string_to_bool('no-recognized').must_equal false
     end
   end
 
