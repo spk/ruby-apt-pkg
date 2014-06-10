@@ -132,5 +132,22 @@ describe Debian::AptPkg do
       c = Debian::AptPkg::Configuration.check_architecture('m68k')
       c.must_equal false
     end
+
+    it 'check_language' do
+      lambda { Debian::AptPkg::Configuration.check_language }.must_raise ArgumentError
+
+      c = Debian::AptPkg::Configuration.check_language('fr')
+      c.must_equal true
+
+      c = Debian::AptPkg::Configuration.check_language('fr', false)
+      c.must_equal false
+
+      langs = Debian::AptPkg::Configuration.languages
+      c = Debian::AptPkg::Configuration.check_language(langs.first)
+      c.must_equal true
+
+      c = Debian::AptPkg::Configuration.check_language('gallifreyan')
+      c.must_equal false
+    end
   end
 end

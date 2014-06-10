@@ -28,6 +28,7 @@ static VALUE upstream_version(VALUE self, VALUE ver);
 static VALUE architectures(VALUE self);
 static VALUE check_architecture(VALUE self, VALUE arch);
 static VALUE languages(int argc, VALUE* argv, VALUE self);
+static VALUE check_language(int argc, VALUE* argv, VALUE self);
 
 /*
  * call-seq: cmp_version(pkg_version_a, pkg_version_b) -> int
@@ -215,13 +216,32 @@ VALUE languages(int argc, VALUE* argv, VALUE self) {
 	VALUE all;
 	rb_scan_args(argc, argv, "01", &all);
 	VALUE result = rb_ary_new();
-	std::vector<std::string> const langs = APT::Configuration::getLanguages(all, true);
+	std::vector<std::string> const langs = APT::Configuration::getLanguages(all);
 	std::vector<std::string>::const_iterator I;
 	for (I = langs.begin(); I != langs.end(); I++)
 	{
 		rb_ary_push(result, rb_str_new2((*I).c_str()));
 	}
 	return result;
+}
+
+/*
+ * call-seq: check_language(lang, all) -> bool
+ *
+ * Are we interested in the given language.
+ *
+ *   Debian::AptPkg::Configuration.check_language("fr") # => true
+ *
+ **/
+static
+VALUE check_language(int argc, VALUE* argv, VALUE self) {
+	VALUE lang, all;
+	if (argc > 2 || argc == 0) {
+		rb_raise(rb_eArgError, "wrong number of arguments");
+	}
+	rb_scan_args(argc, argv, "11", &lang,  &all);
+	int res = APT::Configuration::checkLanguage(StringValuePtr(lang), all);
+	return INT2BOOL(res);
 }
 
 void
@@ -248,6 +268,8 @@ Init_apt_pkg() {
 			RUBY_METHOD_FUNC(check_architecture), 1);
 	rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "languages",
 			RUBY_METHOD_FUNC(languages), -1);
+	rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "check_language",
+			RUBY_METHOD_FUNC(check_language), -1);
 
 	/* Represents less equal operator. */
 	rb_define_const(rb_mDebianAptPkg, "LESS_EQ", INT2FIX(pkgCache::Dep::LessEq));
