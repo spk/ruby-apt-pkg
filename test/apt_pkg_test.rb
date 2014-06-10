@@ -107,6 +107,7 @@ describe Debian::AptPkg do
       arches.must_be_instance_of Array
       arches.wont_be_empty
     end
+
     it 'languages return an array' do
       all_langs = Debian::AptPkg::Configuration.languages
       all_langs.must_be_instance_of Array
@@ -117,6 +118,19 @@ describe Debian::AptPkg do
       langs.wont_be_empty
 
       all_langs.must_include langs.first
+    end
+
+    it 'check_architecture' do
+      c = Debian::AptPkg::Configuration.check_architecture('all')
+      c.must_equal true
+
+      arches = Debian::AptPkg::Configuration.architectures
+      c = Debian::AptPkg::Configuration.check_architecture(arches.first)
+      c.must_equal true
+
+      # http://buildd.debian-ports.org/status/fetch.php?pkg=ruby2.1&arch=m68k&ver=2.1.2-2&stamp=1400604298
+      c = Debian::AptPkg::Configuration.check_architecture('m68k')
+      c.must_equal false
     end
   end
 end

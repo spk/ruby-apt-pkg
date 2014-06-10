@@ -26,6 +26,7 @@ static VALUE check_dep(VALUE self, VALUE pkg_version_a, VALUE cmp_type, VALUE pk
 static VALUE upstream_version(VALUE self, VALUE ver);
 /* Configuration */
 static VALUE architectures(VALUE self);
+static VALUE check_architecture(VALUE self, VALUE arch);
 static VALUE languages(int argc, VALUE* argv, VALUE self);
 
 /*
@@ -183,6 +184,20 @@ VALUE architectures(VALUE self) {
 }
 
 /*
+ * call-seq: check_architecture(arch) -> bool
+ *
+ * Are we interested in the given Architecture.
+ *
+ *   Debian::AptPkg::Configuration.check_architecture("all") # => true
+ *
+ **/
+static
+VALUE check_architecture(VALUE self, VALUE arch) {
+	int res = APT::Configuration::checkArchitecture(StringValuePtr(arch));
+	return INT2BOOL(res);
+}
+
+/*
  * call-seq: languages() -> array
  *
  * Return the list of languages code.
@@ -229,6 +244,8 @@ Init_apt_pkg() {
 
 	rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "architectures",
 			RUBY_METHOD_FUNC(architectures), 0);
+	rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "check_architecture",
+			RUBY_METHOD_FUNC(check_architecture), 1);
 	rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "languages",
 			RUBY_METHOD_FUNC(languages), -1);
 

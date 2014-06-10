@@ -25,6 +25,7 @@ Debian::AptPkg.uri_to_filename('http://debian.org/index.html') # => 'debian.org_
 Debian::AptPkg::Configuration.architectures # => ["amd64"]
 Debian::AptPkg::Configuration.languages # => ["en", "none", "fr"]
 Debian::AptPkg::Configuration.languages(false) # => ["en"]
+Debian::AptPkg::Configuration.check_architecture("all") # => true
 ~~~
 
 ## BUILD
