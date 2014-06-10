@@ -1,4 +1,5 @@
 #include <ruby.h>
+#include <apt-pkg/aptconfiguration.h>
 #include <apt-pkg/configuration.h>
 #include <apt-pkg/deblistparser.h>
 #include <apt-pkg/debversion.h>
@@ -165,7 +166,7 @@ VALUE check_domain_list(VALUE self, VALUE host, VALUE list) {
  *
  * Return the list of architectures supported on this system.
  *
- *   Debian::AptPkg.architectures # => ["amd64"]
+ *   Debian::AptPkg::Configuration.architectures # => ["amd64"]
  *
  **/
 static
@@ -187,18 +188,18 @@ Init_apt_pkg() {
 	/* Base module */
 	VALUE rb_mDebian = rb_define_module("Debian");
 	VALUE rb_mDebianAptPkg = rb_define_module_under(rb_mDebian, "AptPkg");
+	VALUE rb_mDebianAptPkgConfiguration = rb_define_module_under(rb_mDebianAptPkg, "Configuration");
 
 	rb_define_singleton_method(rb_mDebianAptPkg, "uri_to_filename", RUBY_METHOD_FUNC(uri_to_filename), 1);
 	rb_define_singleton_method(rb_mDebianAptPkg, "time_to_str", RUBY_METHOD_FUNC(time_to_str), 1);
 	rb_define_singleton_method(rb_mDebianAptPkg, "size_to_str", RUBY_METHOD_FUNC(size_to_str), 1);
 	rb_define_singleton_method(rb_mDebianAptPkg, "string_to_bool", RUBY_METHOD_FUNC(string_to_bool), 1);
 	rb_define_singleton_method(rb_mDebianAptPkg, "check_domain_list", RUBY_METHOD_FUNC(check_domain_list), 2);
-
 	rb_define_singleton_method(rb_mDebianAptPkg, "cmp_version", RUBY_METHOD_FUNC(cmp_version), 2);
 	rb_define_singleton_method(rb_mDebianAptPkg, "check_dep", RUBY_METHOD_FUNC(check_dep), 3);
 	rb_define_singleton_method(rb_mDebianAptPkg, "upstream_version", RUBY_METHOD_FUNC(upstream_version), 1);
 
-	rb_define_singleton_method(rb_mDebianAptPkg, "architectures", RUBY_METHOD_FUNC(architectures), 0);
+	rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "architectures", RUBY_METHOD_FUNC(architectures), 0);
 
 	/* Represents less equal operator. */
 	rb_define_const(rb_mDebianAptPkg, "LESS_EQ", INT2FIX(pkgCache::Dep::LessEq));

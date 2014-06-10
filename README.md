@@ -21,7 +21,7 @@ Debian::AptPkg.string_to_bool('yes') # => true
 Debian::AptPkg.time_to_str(3601) # => '1h 0min 1s'
 Debian::AptPkg.upstream_version('3.4.15-1+b1') # => '3.4.15'
 Debian::AptPkg.uri_to_filename('http://debian.org/index.html') # => 'debian.org_index.html'
-Debian::AptPkg.architectures # => ["amd64"]
+Debian::AptPkg::Configuration.architectures # => ["amd64"]
 ~~~
 
 ## BUILD

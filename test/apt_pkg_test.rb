@@ -103,7 +103,7 @@ describe Debian::AptPkg do
 
   describe 'Debian::AptPkg.architectures' do
     it 'return an array' do
-      arches = Debian::AptPkg.architectures
+      arches = Debian::AptPkg::Configuration.architectures
       arches.must_be_instance_of Array
       arches.wont_be_empty
     end
