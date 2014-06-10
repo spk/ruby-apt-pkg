@@ -101,11 +101,22 @@ describe Debian::AptPkg do
   end
 
 
-  describe 'Debian::AptPkg.architectures' do
-    it 'return an array' do
+  describe 'Debian::AptPkg::Configuration' do
+    it 'architectures return an array' do
       arches = Debian::AptPkg::Configuration.architectures
       arches.must_be_instance_of Array
       arches.wont_be_empty
+    end
+    it 'languages return an array' do
+      all_langs = Debian::AptPkg::Configuration.languages
+      all_langs.must_be_instance_of Array
+      all_langs.wont_be_empty
+
+      langs = Debian::AptPkg::Configuration.languages(false)
+      langs.must_be_instance_of Array
+      langs.wont_be_empty
+
+      all_langs.must_include langs.first
     end
   end
 end

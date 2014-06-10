@@ -24,8 +24,9 @@ static VALUE check_domain_list(VALUE self, VALUE host, VALUE list);
 static VALUE cmp_version(VALUE self, VALUE pkg_version_a, VALUE pkg_version_b);
 static VALUE check_dep(VALUE self, VALUE pkg_version_a, VALUE cmp_type, VALUE pkg_version_b);
 static VALUE upstream_version(VALUE self, VALUE ver);
-/* Multiarch */
+/* Configuration */
 static VALUE architectures(VALUE self);
+static VALUE languages(int argc, VALUE* argv, VALUE self);
 
 /*
  * call-seq: cmp_version(pkg_version_a, pkg_version_b) -> int
@@ -181,6 +182,33 @@ VALUE architectures(VALUE self) {
 	return result;
 }
 
+/*
+ * call-seq: languages() -> array
+ *
+ * Return the list of languages code.
+ *
+ * Params:
+ *
+ * +all+:: All languages code or short for false.
+ *
+ *   Debian::AptPkg::Configuration.languages # => ["en", "none", "fr"]
+ *   Debian::AptPkg::Configuration.languages(false) # => ["en"]
+ *
+ **/
+static
+VALUE languages(int argc, VALUE* argv, VALUE self) {
+	VALUE all;
+	rb_scan_args(argc, argv, "01", &all);
+	VALUE result = rb_ary_new();
+	std::vector<std::string> const langs = APT::Configuration::getLanguages(all, true);
+	std::vector<std::string>::const_iterator I;
+	for (I = langs.begin(); I != langs.end(); I++)
+	{
+		rb_ary_push(result, rb_str_new2((*I).c_str()));
+	}
+	return result;
+}
+
 void
 Init_apt_pkg() {
 	pkgInitConfig(*_config);
@@ -199,7 +227,10 @@ Init_apt_pkg() {
 	rb_define_singleton_method(rb_mDebianAptPkg, "check_dep", RUBY_METHOD_FUNC(check_dep), 3);
 	rb_define_singleton_method(rb_mDebianAptPkg, "upstream_version", RUBY_METHOD_FUNC(upstream_version), 1);
 
-	rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "architectures", RUBY_METHOD_FUNC(architectures), 0);
+	rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "architectures",
+			RUBY_METHOD_FUNC(architectures), 0);
+	rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "languages",
+			RUBY_METHOD_FUNC(languages), -1);
 
 	/* Represents less equal operator. */
 	rb_define_const(rb_mDebianAptPkg, "LESS_EQ", INT2FIX(pkgCache::Dep::LessEq));
