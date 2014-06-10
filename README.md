@@ -3,7 +3,7 @@
 ## INSTALL
 
 ~~~ console
-aptitude install libapt-pkg-dev ruby2.0-dev
+aptitude install libapt-pkg-dev ruby-dev
 gem install apt-pkg
 ~~~
 
