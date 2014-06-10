@@ -26,6 +26,7 @@ Debian::AptPkg::Configuration.architectures # => ["amd64"]
 Debian::AptPkg::Configuration.languages # => ["en", "none", "fr"]
 Debian::AptPkg::Configuration.languages(false) # => ["en"]
 Debian::AptPkg::Configuration.check_architecture("all") # => true
+Debian::AptPkg::Configuration.check_language("fr") # => true
 ~~~
 
 ## BUILD
