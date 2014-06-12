@@ -1,34 +1,5 @@
-#include <ruby.h>
-#include <apt-pkg/aptconfiguration.h>
-#include <apt-pkg/configuration.h>
-#include <apt-pkg/deblistparser.h>
-#include <apt-pkg/debversion.h>
-#include <apt-pkg/pkgcache.h>
-#include <apt-pkg/strutl.h>
-#include <apt-pkg/init.h>
-
-using namespace std;
-
-/* from '<ruby/dl.h>' */
-#define INT2BOOL(x)  ((x) ? Qtrue : Qfalse)
-
-/* function prototypes */
-extern "C" void Init_apt_pkg();
-/* String functions */
-static VALUE uri_to_filename(VALUE self, VALUE uri);
-static VALUE time_to_str(VALUE self, VALUE secondes);
-static VALUE size_to_str(VALUE self, VALUE size);
-static VALUE string_to_bool(VALUE self, VALUE text);
-static VALUE check_domain_list(VALUE self, VALUE host, VALUE list);
-/* Versioning */
-static VALUE cmp_version(VALUE self, VALUE pkg_version_a, VALUE pkg_version_b);
-static VALUE check_dep(VALUE self, VALUE pkg_version_a, VALUE cmp_type, VALUE pkg_version_b);
-static VALUE upstream_version(VALUE self, VALUE ver);
-/* Configuration */
-static VALUE architectures(VALUE self);
-static VALUE check_architecture(VALUE self, VALUE arch);
-static VALUE languages(int argc, VALUE* argv, VALUE self);
-static VALUE check_language(int argc, VALUE* argv, VALUE self);
+#include "apt-pkg.h"
+#include "configuration.h"
 
 /*
  * call-seq: cmp_version(pkg_version_a, pkg_version_b) -> int
@@ -164,86 +135,6 @@ VALUE check_domain_list(VALUE self, VALUE host, VALUE list) {
 	return INT2BOOL(res);
 }
 
-/*
- * call-seq: architectures() -> array
- *
- * Return the list of architectures supported on this system.
- *
- *   Debian::AptPkg::Configuration.architectures # => ["amd64"]
- *
- **/
-static
-VALUE architectures(VALUE self) {
-	VALUE result = rb_ary_new();
-	std::vector<std::string> arches = APT::Configuration::getArchitectures();
-	std::vector<std::string>::const_iterator I;
-	for (I = arches.begin(); I != arches.end(); I++)
-	{
-		rb_ary_push(result, rb_str_new2((*I).c_str()));
-	}
-	return result;
-}
-
-/*
- * call-seq: check_architecture(arch) -> bool
- *
- * Are we interested in the given Architecture.
- *
- *   Debian::AptPkg::Configuration.check_architecture("all") # => true
- *
- **/
-static
-VALUE check_architecture(VALUE self, VALUE arch) {
-	int res = APT::Configuration::checkArchitecture(StringValuePtr(arch));
-	return INT2BOOL(res);
-}
-
-/*
- * call-seq: languages() -> array
- *
- * Return the list of languages code.
- *
- * Params:
- *
- * +all+:: All languages code or short for false.
- *
- *   Debian::AptPkg::Configuration.languages # => ["en", "none", "fr"]
- *   Debian::AptPkg::Configuration.languages(false) # => ["en"]
- *
- **/
-static
-VALUE languages(int argc, VALUE* argv, VALUE self) {
-	VALUE all;
-	rb_scan_args(argc, argv, "01", &all);
-	VALUE result = rb_ary_new();
-	std::vector<std::string> const langs = APT::Configuration::getLanguages(all);
-	std::vector<std::string>::const_iterator I;
-	for (I = langs.begin(); I != langs.end(); I++)
-	{
-		rb_ary_push(result, rb_str_new2((*I).c_str()));
-	}
-	return result;
-}
-
-/*
- * call-seq: check_language(lang, all) -> bool
- *
- * Are we interested in the given language.
- *
- *   Debian::AptPkg::Configuration.check_language("fr") # => true
- *
- **/
-static
-VALUE check_language(int argc, VALUE* argv, VALUE self) {
-	VALUE lang, all;
-	if (argc > 2 || argc == 0) {
-		rb_raise(rb_eArgError, "wrong number of arguments");
-	}
-	rb_scan_args(argc, argv, "11", &lang,  &all);
-	int res = APT::Configuration::checkLanguage(StringValuePtr(lang), all);
-	return INT2BOOL(res);
-}
-
 void
 Init_apt_pkg() {
 	pkgInitConfig(*_config);
@@ -262,15 +153,6 @@ Init_apt_pkg() {
 	rb_define_singleton_method(rb_mDebianAptPkg, "check_dep", RUBY_METHOD_FUNC(check_dep), 3);
 	rb_define_singleton_method(rb_mDebianAptPkg, "upstream_version", RUBY_METHOD_FUNC(upstream_version), 1);
 
-	rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "architectures",
-			RUBY_METHOD_FUNC(architectures), 0);
-	rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "check_architecture",
-			RUBY_METHOD_FUNC(check_architecture), 1);
-	rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "languages",
-			RUBY_METHOD_FUNC(languages), -1);
-	rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "check_language",
-			RUBY_METHOD_FUNC(check_language), -1);
-
 	/* Represents less equal operator. */
 	rb_define_const(rb_mDebianAptPkg, "LESS_EQ", INT2FIX(pkgCache::Dep::LessEq));
 	/* Represents greater equal operator. */
@@ -288,4 +170,6 @@ Init_apt_pkg() {
 	rb_define_const(rb_mDebianAptPkg, "VERSION", rb_str_new2(pkgVersion));
 	/* Represents the version of apt_pkg library. */
 	rb_define_const(rb_mDebianAptPkg, "LIB_VERSION", rb_str_new2(pkgLibVersion));
+
+	init_apt_pkg_configuration();
 }
