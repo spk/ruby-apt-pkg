@@ -160,5 +160,12 @@ describe Debian::AptPkg do
       c = Debian::AptPkg::Configuration.check_language('gallifreyan')
       c.must_equal false
     end
+
+    it 'compressors return an array' do
+      cmps = Debian::AptPkg::Configuration.compressors
+      cmps.must_be_instance_of Array
+      cmps.wont_be_empty
+      cmps.must_include 'gz'
+    end
   end
 end

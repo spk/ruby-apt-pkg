@@ -80,6 +80,26 @@ VALUE check_language(int argc, VALUE* argv, VALUE self) {
 	return INT2BOOL(res);
 }
 
+/*
+ * call-seq: compressors() -> array
+ *
+ * Return the list of compressors supported on this system.
+ *
+ *   Debian::AptPkg::Configuration.compressors # => ["gz"]
+ *
+ **/
+static
+VALUE compressors(VALUE self) {
+	VALUE result = rb_ary_new();
+	std::vector<std::string> cmps = APT::Configuration::getCompressionTypes();
+	std::vector<std::string>::const_iterator I;
+	for (I = cmps.begin(); I != cmps.end(); I++)
+	{
+		rb_ary_push(result, rb_str_new2((*I).c_str()));
+	}
+	return result;
+}
+
 void
 init_apt_pkg_configuration() {
 	VALUE rb_mDebian = rb_define_module("Debian");
@@ -94,5 +114,6 @@ init_apt_pkg_configuration() {
 			RUBY_METHOD_FUNC(languages), -1);
 	rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "check_language",
 			RUBY_METHOD_FUNC(check_language), -1);
-
+	rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "compressors",
+			RUBY_METHOD_FUNC(compressors), 0);
 }
