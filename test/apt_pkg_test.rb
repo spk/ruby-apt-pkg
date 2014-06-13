@@ -19,6 +19,7 @@ describe Debian::AptPkg do
         Debian::AptPkg.check_dep('1', '<=', '1').must_equal true
       end
     end
+
     describe 'GreaterEq' do
       it 'should compare Debian version' do
         Debian::AptPkg.check_dep('1', '>=', '2').must_equal false
@@ -26,6 +27,7 @@ describe Debian::AptPkg do
         Debian::AptPkg.check_dep('1', '>=', '1').must_equal true
       end
     end
+
     describe 'Less' do
       it 'should compare Debian version' do
         Debian::AptPkg.check_dep('1', '<', '2').must_equal true
@@ -33,6 +35,7 @@ describe Debian::AptPkg do
         Debian::AptPkg.check_dep('1', '<', '1').must_equal false
       end
     end
+
     describe 'Greater' do
       it 'should compare Debian version' do
         Debian::AptPkg.check_dep('1', '>', '2').must_equal false
@@ -40,6 +43,7 @@ describe Debian::AptPkg do
         Debian::AptPkg.check_dep('1', '>', '1').must_equal false
       end
     end
+
     describe 'Equals' do
       it 'should compare Debian version' do
         Debian::AptPkg.check_dep('1', '=', '2').must_equal false
@@ -47,28 +51,36 @@ describe Debian::AptPkg do
         Debian::AptPkg.check_dep('1', '=', '1').must_equal true
       end
     end
+
     describe 'NotEquals' do
       it 'should compare Debian version' do
-        Debian::AptPkg.check_dep('1', Debian::AptPkg::NOT_EQUALS, '2').must_equal true
-        Debian::AptPkg.check_dep('2', Debian::AptPkg::NOT_EQUALS, '1').must_equal true
-        Debian::AptPkg.check_dep('1', Debian::AptPkg::NOT_EQUALS, '1').must_equal false
+        Debian::AptPkg.check_dep('1', Debian::AptPkg::NOT_EQUALS, '2').
+          must_equal true
+        Debian::AptPkg.check_dep('2', Debian::AptPkg::NOT_EQUALS, '1').
+          must_equal true
+        Debian::AptPkg.check_dep('1', Debian::AptPkg::NOT_EQUALS, '1').
+          must_equal false
       end
     end
+
     describe 'Errors' do
       it 'should raise argument error with bad comparison' do
-        lambda { Debian::AptPkg.check_dep('1', 'bad', '2') }.must_raise ArgumentError
+        lambda {
+          Debian::AptPkg.check_dep('1', 'bad', '2')
+        }.must_raise ArgumentError
       end
     end
   end
 
   describe 'Debian::AptPkg.uri_to_filename' do
     it 'should return a filename which can be used to store the file' do
-      Debian::AptPkg.uri_to_filename('http://debian.org/index.html').must_equal 'debian.org_index.html'
+      Debian::AptPkg.uri_to_filename('http://debian.org/index.html').
+        must_equal 'debian.org_index.html'
     end
   end
 
   describe 'Debian::AptPkg.upstream_version' do
-    it 'Return the upstream version for the Debian package version given by version' do
+    it 'Return the upstream version for the Debian package version' do
       Debian::AptPkg.upstream_version('3.4.15-1+b1').must_equal '3.4.15'
     end
   end
@@ -95,8 +107,10 @@ describe Debian::AptPkg do
 
   describe 'Debian::AptPkg.check_domain_list' do
     it 'See if the host name given by host is one of the domains given' do
-      Debian::AptPkg.check_domain_list("alioth.debian.org", "debian.net,debian.org").must_equal true
-      Debian::AptPkg.check_domain_list("git.debian.org", "spkdev.net").must_equal false
+      Debian::AptPkg.check_domain_list("alioth.debian.org",
+                                       "debian.net,debian.org").must_equal true
+      Debian::AptPkg.check_domain_list("git.debian.org",
+                                       "spkdev.net").must_equal false
     end
   end
 
@@ -121,30 +135,27 @@ describe Debian::AptPkg do
     end
 
     it 'check_architecture' do
-      c = Debian::AptPkg::Configuration.check_architecture('all')
-      c.must_equal true
+      Debian::AptPkg::Configuration.check_architecture('all').must_equal true
 
       arches = Debian::AptPkg::Configuration.architectures
       c = Debian::AptPkg::Configuration.check_architecture(arches.first)
       c.must_equal true
 
       # http://buildd.debian-ports.org/status/fetch.php?pkg=ruby2.1&arch=m68k&ver=2.1.2-2&stamp=1400604298
-      c = Debian::AptPkg::Configuration.check_architecture('m68k')
-      c.must_equal false
+      Debian::AptPkg::Configuration.check_architecture('m68k').must_equal false
     end
 
     it 'check_language' do
-      lambda { Debian::AptPkg::Configuration.check_language }.must_raise ArgumentError
+      lambda {
+        Debian::AptPkg::Configuration.check_language
+      }.must_raise ArgumentError
 
-      c = Debian::AptPkg::Configuration.check_language('fr')
-      c.must_equal true
+      Debian::AptPkg::Configuration.check_language('fr').must_equal true
 
-      c = Debian::AptPkg::Configuration.check_language('fr', false)
-      c.must_equal false
+      Debian::AptPkg::Configuration.check_language('fr', false).must_equal false
 
       langs = Debian::AptPkg::Configuration.languages
-      c = Debian::AptPkg::Configuration.check_language(langs.first)
-      c.must_equal true
+      Debian::AptPkg::Configuration.check_language(langs.first).must_equal true
 
       c = Debian::AptPkg::Configuration.check_language('gallifreyan')
       c.must_equal false
