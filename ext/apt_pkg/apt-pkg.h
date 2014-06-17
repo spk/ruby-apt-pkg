@@ -1,6 +1,4 @@
 #include <ruby.h>
-#include <apt-pkg/aptconfiguration.h>
-#include <apt-pkg/configuration.h>
 #include <apt-pkg/deblistparser.h>
 #include <apt-pkg/debversion.h>
 #include <apt-pkg/pkgcache.h>
