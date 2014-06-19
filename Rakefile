@@ -12,7 +12,10 @@ Rake::TestTask.new do |t|
 end
 
 RDoc::Task.new do |rd|
-  rd.rdoc_files.include("ext/**/*.cpp")
+  rd.main = "README.md"
+  rd.rdoc_files.include("README.md", "ext/**/*.cpp")
+  rd.options << "--all"
+  rd.title = "ruby-apt-pkg"
 end
 
 task default: [:test]
