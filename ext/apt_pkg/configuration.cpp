@@ -100,6 +100,61 @@ VALUE compressors(VALUE self) {
 	return result;
 }
 
+/*
+ * call-seq: config_find(name, default_key = '') -> string
+ *
+ * Return the value stored at the option named key, or the value given by the
+ * string default if the option in question is not set.
+ *
+ * Params:
+ *
+ * +name+:: Key name.
+ * +default_key+:: Default key when config option not set.
+ *
+ *   Debian::AptPkg::Configuration.config_find('Dir::Etc::main') # => "apt.conf"
+ *
+ **/
+static
+VALUE config_find(int argc, VALUE* argv, VALUE self) {
+	VALUE name, default_key;
+	if (argc > 2 || argc == 0) {
+		rb_raise(rb_eArgError, "wrong number of arguments");
+	}
+	rb_scan_args(argc, argv, "11", &name,  &default_key);
+	if (NIL_P(default_key))
+		default_key = rb_str_new2("");
+	return rb_str_new2(_config->Find(StringValuePtr(name), StringValuePtr(default_key)).c_str());
+}
+
+/*
+ * call-seq: config_find_file(name, default_key = '') -> string
+ *
+ * Locate the given key using find() and return the path to the file/directory.
+ * This uses a special algorithms which moves upwards in the configuration space
+ * and prepends the values of the options to the result. These methods are
+ * generally used for the options stored in the ‘Dir’ section of the
+ * configuration.
+ *
+ * Params:
+ *
+ * +name+:: Key name.
+ * +default_key+:: Default key when config option not set.
+ *
+ *   Debian::AptPkg::Configuration.config_find_file('Dir::Etc::main') # => "/etc/apt/apt.conf"
+ *
+ **/
+static
+VALUE config_find_file(int argc, VALUE* argv, VALUE self) {
+	VALUE name, default_key;
+	if (argc > 2 || argc == 0) {
+		rb_raise(rb_eArgError, "wrong number of arguments");
+	}
+	rb_scan_args(argc, argv, "11", &name,  &default_key);
+	if (NIL_P(default_key))
+		default_key = rb_str_new2("");
+	return rb_str_new2(_config->FindFile(StringValuePtr(name), StringValuePtr(default_key)).c_str());
+}
+
 void
 init_apt_pkg_configuration() {
 	VALUE rb_mDebian = rb_define_module("Debian");
@@ -116,4 +171,9 @@ init_apt_pkg_configuration() {
 			RUBY_METHOD_FUNC(check_language), -1);
 	rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "compressors",
 			RUBY_METHOD_FUNC(compressors), 0);
+
+	rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "config_find",
+			RUBY_METHOD_FUNC(config_find), -1);
+	rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "config_find_file",
+			RUBY_METHOD_FUNC(config_find_file), -1);
 }

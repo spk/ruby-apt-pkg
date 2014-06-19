@@ -167,5 +167,23 @@ describe Debian::AptPkg do
       cmps.wont_be_empty
       cmps.must_include 'gz'
     end
+
+    it 'find configuration value' do
+      Debian::AptPkg::Configuration.config_find('Dir::Etc::main').
+        must_equal "apt.conf"
+      Debian::AptPkg::Configuration.config_find('Dir::Etc::netrc').
+        must_equal "auth.conf"
+      Debian::AptPkg::Configuration.config_find('Dir::Etc::parts').
+        must_equal "apt.conf.d"
+      Debian::AptPkg::Configuration.config_find('Spk', 'DebianUser').
+        must_equal "DebianUser"
+    end
+
+    it 'find file' do
+      Debian::AptPkg::Configuration.config_find_file('Dir::Etc::main').
+        must_equal "/etc/apt/apt.conf"
+      Debian::AptPkg::Configuration.config_find_file('Dir::Etc::netrc').
+        must_equal "/etc/apt/auth.conf"
+    end
   end
 end
