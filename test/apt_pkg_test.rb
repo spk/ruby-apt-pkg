@@ -169,6 +169,10 @@ describe Debian::AptPkg do
     end
 
     it 'find configuration value' do
+      lambda {
+        Debian::AptPkg::Configuration.config_find
+      }.must_raise ArgumentError
+
       Debian::AptPkg::Configuration.config_find('Dir::Etc::main').
         must_equal "apt.conf"
       Debian::AptPkg::Configuration.config_find('Dir::Etc::netrc').
@@ -180,6 +184,10 @@ describe Debian::AptPkg do
     end
 
     it 'find file' do
+      lambda {
+        Debian::AptPkg::Configuration.config_find_file
+      }.must_raise ArgumentError
+
       Debian::AptPkg::Configuration.config_find_file('Dir::Etc::main').
         must_equal "/etc/apt/apt.conf"
       Debian::AptPkg::Configuration.config_find_file('Dir::Etc::netrc').
