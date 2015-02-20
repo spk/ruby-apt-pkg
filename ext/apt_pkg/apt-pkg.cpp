@@ -1,5 +1,6 @@
 #include "apt-pkg.h"
 #include "configuration.h"
+#include "pkgcache.h"
 
 /*
  * call-seq: cmp_version(pkg_version_a, pkg_version_b) -> int
@@ -172,4 +173,5 @@ Init_apt_pkg() {
 	rb_define_const(rb_mDebianAptPkg, "LIB_VERSION", rb_str_new2(pkgLibVersion));
 
 	init_apt_pkg_configuration();
+	init_apt_pkg_pkgcache();
 }

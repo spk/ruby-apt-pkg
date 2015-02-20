@@ -194,4 +194,12 @@ describe Debian::AptPkg do
         must_equal "/etc/apt/auth.conf"
     end
   end
+
+  describe Debian::AptPkg::PkgCache do
+    describe '.find_pkg' do
+      it 'be striped' do
+        Debian::AptPkg::PkgCache.find_pkg(" gcolor2 ").must_equal ["gcolor2"]
+      end
+    end
+  end
 end
