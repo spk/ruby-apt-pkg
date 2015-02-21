@@ -3,7 +3,7 @@
 ## INSTALL
 
 ~~~ console
-aptitude install libapt-pkg-dev ruby-dev
+aptitude install ruby-dev libapt-pkg-dev (~> 1.0)
 gem install apt-pkg
 ~~~
 
@@ -37,4 +37,4 @@ bundle exec rake test
 
 The MIT License
 
-Copyright (c) 2014 Laurent Arnoud <laurent@spkdev.net>
+Copyright (c) 2014-2015 Laurent Arnoud <laurent@spkdev.net>
