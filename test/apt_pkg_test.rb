@@ -196,10 +196,27 @@ describe Debian::AptPkg do
   end
 
   describe Debian::AptPkg::PkgCache do
-    describe '.find_pkg' do
-      it 'be striped' do
-        Debian::AptPkg::PkgCache.find_pkg(" gcolor2 ").must_equal ["gcolor2"]
+    describe '.gen_caches' do
+      it 'return boolean' do
+        Debian::AptPkg::PkgCache.gen_caches.must_be :==, false
       end
+    end
+
+    describe '.pkg_names' do
+      it 'be striped' do
+        Debian::AptPkg::PkgCache.pkg_names(" gcolor2 ").must_equal ["gcolor2"]
+      end
+
+      it 'format' do
+        Debian::AptPkg::PkgCache.pkg_names.must_be_kind_of Array
+        Debian::AptPkg::PkgCache.pkg_names.wont_be_empty
+      end
+
+      it 'be filtered' do
+        Debian::AptPkg::PkgCache.pkg_names("vim").must_include "vim"
+        Debian::AptPkg::PkgCache.pkg_names("vim").wont_include "emacs"
+      end
+
     end
   end
 end

@@ -139,6 +139,7 @@ VALUE check_domain_list(VALUE self, VALUE host, VALUE list) {
 void
 Init_apt_pkg() {
 	pkgInitConfig(*_config);
+	pkgInitSystem(*_config, _system);
 
 	/* Base module */
 	VALUE rb_mDebian = rb_define_module("Debian");
