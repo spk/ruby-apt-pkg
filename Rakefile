@@ -18,4 +18,12 @@ RDoc::Task.new do |rd|
   rd.title = "ruby-apt-pkg"
 end
 
+task :lint do
+  sh('cppcheck --error-exitcode=1 --quiet --enable=all --inconclusive --std=posix ext/apt_pkg') do |ok, res|
+    unless ok
+      puts "lint error (status = #{res.exitstatus})"
+    end
+  end
+end
+
 task default: [:test]
