@@ -129,9 +129,6 @@ describe Debian::AptPkg do
 
       langs = Debian::AptPkg::Configuration.languages(false)
       langs.must_be_instance_of Array
-      langs.wont_be_empty
-
-      all_langs.must_include langs.first
     end
 
     it 'check_architecture' do
@@ -149,10 +146,6 @@ describe Debian::AptPkg do
       lambda {
         Debian::AptPkg::Configuration.check_language
       }.must_raise ArgumentError
-
-      Debian::AptPkg::Configuration.check_language('fr').must_equal true
-
-      Debian::AptPkg::Configuration.check_language('fr', false).must_equal false
 
       langs = Debian::AptPkg::Configuration.languages
       Debian::AptPkg::Configuration.check_language(langs.first).must_equal true
