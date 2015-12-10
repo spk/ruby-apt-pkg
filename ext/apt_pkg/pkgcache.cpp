@@ -42,7 +42,7 @@ VALUE pkg_names(int argc, VALUE* argv, VALUE self) {
     pkgCache *Cache = CacheFile.GetPkgCache();
     pkgCache::GrpIterator I = CacheFile.GetPkgCache()->GrpBegin();
 
-    const char *pkgname = APT::String::Strip(StringValuePtr(name)).c_str();
+    const char *pkgname = StringValuePtr(name);
     for (;I.end() != true; ++I) {
         if (strncmp(I.Name(), pkgname, strlen(pkgname)) == 0) {
             rb_ary_push(result, rb_str_new2(I.Name()));

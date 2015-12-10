@@ -209,10 +209,6 @@ describe Debian::AptPkg do
         }.must_raise ArgumentError
       end
 
-      it 'be striped' do
-        Debian::AptPkg::PkgCache.pkg_names(" gcolor2 ").must_equal ["gcolor2"]
-      end
-
       it 'be filtered' do
         search = Debian::AptPkg::PkgCache.pkg_names("vim")
         search.must_include "vim"
