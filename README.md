@@ -1,5 +1,10 @@
 # Ruby interface to apt-pkg
 
+Goal of this project is to have a proper Ruby binding to APT like in
+[Python](https://apt.alioth.debian.org/python-apt-doc/library/apt_pkg.html).
+
+Currently install, remove packages is not implemented.
+
 ## INSTALL
 
 ~~~ console
@@ -28,10 +33,6 @@ bundle exec rake compile
 ~~~ console
 bundle exec rake test
 ~~~
-
-## REFERENCES
-
-* http://apt.alioth.debian.org/python-apt-doc/library/apt_pkg.html
 
 ## LICENSE
 

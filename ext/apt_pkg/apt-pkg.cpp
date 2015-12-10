@@ -91,10 +91,10 @@ VALUE upstream_version(VALUE self, VALUE ver) {
  *   Debian::AptPkg.time_to_str(3601) # => '1h 0min 1s'
  *
  **/
-    static
-    VALUE time_to_str(VALUE self, VALUE secondes) {
-        return rb_str_new2(TimeToStr(NUM2INT(secondes)).c_str());
-    }
+static
+VALUE time_to_str(VALUE self, VALUE secondes) {
+    return rb_str_new2(TimeToStr(NUM2INT(secondes)).c_str());
+}
 
 /*
  * call-seq: size_to_str(size) -> string
@@ -119,10 +119,10 @@ VALUE size_to_str(VALUE self, VALUE size) {
  *   Debian::AptPkg.string_to_bool('no-recognized') # => false
  *
  **/
-    static
-    VALUE string_to_bool(VALUE self, VALUE text) {
-        return INT2BOOL(StringToBool(StringValuePtr(text)) == 1);
-    }
+static
+VALUE string_to_bool(VALUE self, VALUE text) {
+    return INT2BOOL(StringToBool(StringValuePtr(text)) == 1);
+}
 
 /*
  * call-seq: check_domain_list(host, list) -> bool
