@@ -71,10 +71,10 @@ VALUE languages(int argc, VALUE* argv, VALUE self) {
  **/
 static
 VALUE check_language(int argc, VALUE* argv, VALUE self) {
-    VALUE lang, all;
     if (argc > 2 || argc == 0) {
         rb_raise(rb_eArgError, "wrong number of arguments");
     }
+    VALUE lang, all;
     rb_scan_args(argc, argv, "11", &lang,  &all);
     int res = APT::Configuration::checkLanguage(StringValuePtr(lang), all);
     return INT2BOOL(res);
@@ -116,10 +116,10 @@ VALUE compressors(VALUE self) {
  **/
 static
 VALUE config_find(int argc, VALUE* argv, VALUE self) {
-    VALUE name, default_key;
     if (argc > 2 || argc == 0) {
         rb_raise(rb_eArgError, "wrong number of arguments");
     }
+    VALUE name, default_key;
     rb_scan_args(argc, argv, "11", &name,  &default_key);
     if (NIL_P(default_key))
         default_key = rb_str_new2("");
@@ -146,10 +146,10 @@ VALUE config_find(int argc, VALUE* argv, VALUE self) {
  **/
 static
 VALUE config_find_file(int argc, VALUE* argv, VALUE self) {
-    VALUE name, default_key;
     if (argc > 2 || argc == 0) {
         rb_raise(rb_eArgError, "wrong number of arguments");
     }
+    VALUE name, default_key;
     rb_scan_args(argc, argv, "11", &name,  &default_key);
     if (NIL_P(default_key))
         default_key = rb_str_new2("");

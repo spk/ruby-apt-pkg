@@ -195,20 +195,31 @@ describe Debian::AptPkg do
     end
 
     describe '.pkg_names' do
+      it 'argument' do
+        lambda {
+          Debian::AptPkg::PkgCache.pkg_names
+        }.must_raise ArgumentError
+
+        lambda {
+          Debian::AptPkg::PkgCache.pkg_names(nil)
+        }.must_raise ArgumentError
+
+        lambda {
+          Debian::AptPkg::PkgCache.pkg_names("")
+        }.must_raise ArgumentError
+      end
+
       it 'be striped' do
         Debian::AptPkg::PkgCache.pkg_names(" gcolor2 ").must_equal ["gcolor2"]
       end
 
-      it 'format' do
-        Debian::AptPkg::PkgCache.pkg_names.must_be_kind_of Array
-        Debian::AptPkg::PkgCache.pkg_names.wont_be_empty
-      end
-
       it 'be filtered' do
-        Debian::AptPkg::PkgCache.pkg_names("vim").must_include "vim"
-        Debian::AptPkg::PkgCache.pkg_names("vim").wont_include "emacs"
+        search = Debian::AptPkg::PkgCache.pkg_names("vim")
+        search.must_include "vim"
+        search.must_include "vim-nox"
+        search.must_include "vim-gtk"
+        search.wont_include "emacs"
       end
-
     end
   end
 end
