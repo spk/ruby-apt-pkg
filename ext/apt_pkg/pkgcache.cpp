@@ -25,9 +25,12 @@ VALUE gen_caches(VALUE self) {
  **/
 static
 VALUE pkg_names(int argc, VALUE* argv, VALUE self) {
+    if (argc > 1 || argc == 0) {
+        rb_raise(rb_eArgError, "You must give at least one search argument");
+    }
     VALUE name;
     rb_scan_args(argc, argv, "01", &name);
-    if (argc > 1 || argc == 0 || NIL_P(name) || RSTRING_LEN(name) < 1) {
+    if (NIL_P(name) || RSTRING_LEN(name) < 1) {
         rb_raise(rb_eArgError, "You must give at least one search pattern");
     }
     VALUE result = rb_ary_new();
