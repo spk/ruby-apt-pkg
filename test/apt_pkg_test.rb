@@ -1,8 +1,7 @@
 require_relative 'test_helper'
 
 describe Debian::AptPkg do
-
-  describe 'Debian::AptPkg.cmp_version' do
+  describe '.cmp_version' do
     it 'should compare version' do
       Debian::AptPkg.cmp_version('1.1', '1.0').must_be :>, 0
       Debian::AptPkg.cmp_version('1.0', '1.0').must_be :==, 0
@@ -10,7 +9,7 @@ describe Debian::AptPkg do
     end
   end
 
-  describe 'Debian::AptPkg.check_dep' do
+  describe '.check_dep' do
     describe 'LessEq' do
       it 'should compare Debian version' do
         Debian::AptPkg.check_dep('1', '<=', '2').must_equal true
@@ -71,32 +70,32 @@ describe Debian::AptPkg do
     end
   end
 
-  describe 'Debian::AptPkg.uri_to_filename' do
+  describe '.uri_to_filename' do
     it 'should return a filename which can be used to store the file' do
       Debian::AptPkg.uri_to_filename('http://debian.org/index.html').
         must_equal 'debian.org_index.html'
     end
   end
 
-  describe 'Debian::AptPkg.upstream_version' do
+  describe '.upstream_version' do
     it 'Return the upstream version for the Debian package version' do
       Debian::AptPkg.upstream_version('3.4.15-1+b1').must_equal '3.4.15'
     end
   end
 
-  describe 'Debian::AptPkg.time_to_str' do
+  describe '.time_to_str' do
     it 'Format a given duration in human-readable manner' do
       Debian::AptPkg.time_to_str(3601).must_equal '1h 0min 1s'
     end
   end
 
-  describe 'Debian::AptPkg.size_to_str' do
+  describe '.size_to_str' do
     it 'Return a string describing the size in a human-readable manner' do
       Debian::AptPkg.size_to_str(10000).must_equal '10.0 k'
     end
   end
 
-  describe 'Debian::AptPkg.string_to_bool' do
+  describe '.string_to_bool' do
     it 'Parse the string input and return a boolean' do
       Debian::AptPkg.string_to_bool('yes').must_equal true
       Debian::AptPkg.string_to_bool('no').must_equal false
@@ -104,118 +103,12 @@ describe Debian::AptPkg do
     end
   end
 
-  describe 'Debian::AptPkg.check_domain_list' do
+  describe '.check_domain_list' do
     it 'See if the host name given by host is one of the domains given' do
       Debian::AptPkg.check_domain_list("alioth.debian.org",
                                        "debian.net,debian.org").must_equal true
       Debian::AptPkg.check_domain_list("git.debian.org",
                                        "spkdev.net").must_equal false
-    end
-  end
-
-
-  describe 'Debian::AptPkg::Configuration' do
-    it 'architectures return an array' do
-      arches = Debian::AptPkg::Configuration.architectures
-      arches.must_be_instance_of Array
-      arches.wont_be_empty
-    end
-
-    it 'languages return an array' do
-      all_langs = Debian::AptPkg::Configuration.languages
-      all_langs.must_be_instance_of Array
-      all_langs.wont_be_empty
-
-      langs = Debian::AptPkg::Configuration.languages(false)
-      langs.must_be_instance_of Array
-    end
-
-    it 'check_architecture' do
-      Debian::AptPkg::Configuration.check_architecture('all').must_equal true
-
-      arches = Debian::AptPkg::Configuration.architectures
-      c = Debian::AptPkg::Configuration.check_architecture(arches.first)
-      c.must_equal true
-
-      # http://buildd.debian-ports.org/status/fetch.php?pkg=ruby2.1&arch=m68k&ver=2.1.2-2&stamp=1400604298
-      Debian::AptPkg::Configuration.check_architecture('m68k').must_equal false
-    end
-
-    it 'check_language' do
-      lambda {
-        Debian::AptPkg::Configuration.check_language
-      }.must_raise ArgumentError
-
-      langs = Debian::AptPkg::Configuration.languages
-      Debian::AptPkg::Configuration.check_language(langs.first).must_equal true
-
-      c = Debian::AptPkg::Configuration.check_language('gallifreyan')
-      c.must_equal false
-    end
-
-    it 'compressors return an array' do
-      cmps = Debian::AptPkg::Configuration.compressors
-      cmps.must_be_instance_of Array
-      cmps.wont_be_empty
-      cmps.must_include 'gz'
-    end
-
-    it 'find configuration value' do
-      lambda {
-        Debian::AptPkg::Configuration.config_find
-      }.must_raise ArgumentError
-
-      Debian::AptPkg::Configuration.config_find('Dir::Etc::main').
-        must_equal "apt.conf"
-      Debian::AptPkg::Configuration.config_find('Dir::Etc::netrc').
-        must_equal "auth.conf"
-      Debian::AptPkg::Configuration.config_find('Dir::Etc::parts').
-        must_equal "apt.conf.d"
-      Debian::AptPkg::Configuration.config_find('Spk', 'DebianUser').
-        must_equal "DebianUser"
-    end
-
-    it 'find file' do
-      lambda {
-        Debian::AptPkg::Configuration.config_find_file
-      }.must_raise ArgumentError
-
-      Debian::AptPkg::Configuration.config_find_file('Dir::Etc::main').
-        must_equal "/etc/apt/apt.conf"
-      Debian::AptPkg::Configuration.config_find_file('Dir::Etc::netrc').
-        must_equal "/etc/apt/auth.conf"
-    end
-  end
-
-  describe Debian::AptPkg::PkgCache do
-    describe '.gen_caches' do
-      it 'return boolean' do
-        Debian::AptPkg::PkgCache.gen_caches.must_be :==, false
-      end
-    end
-
-    describe '.pkg_names' do
-      it 'argument' do
-        lambda {
-          Debian::AptPkg::PkgCache.pkg_names
-        }.must_raise ArgumentError
-
-        lambda {
-          Debian::AptPkg::PkgCache.pkg_names(nil)
-        }.must_raise ArgumentError
-
-        lambda {
-          Debian::AptPkg::PkgCache.pkg_names("")
-        }.must_raise ArgumentError
-      end
-
-      it 'be filtered' do
-        search = Debian::AptPkg::PkgCache.pkg_names("vim")
-        search.must_include "vim"
-        search.must_include "vim-nox"
-        search.must_include "vim-gtk"
-        search.wont_include "emacs"
-      end
     end
   end
 end
