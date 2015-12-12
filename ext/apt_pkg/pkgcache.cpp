@@ -36,7 +36,6 @@ VALUE pkg_names(int argc, VALUE* argv, VALUE self) {
     VALUE result = rb_ary_new();
 
     pkgCacheFile CacheFile;
-    pkgCache *Cache = CacheFile.GetPkgCache();
     pkgCache::GrpIterator I = CacheFile.GetPkgCache()->GrpBegin();
 
     const char *pkgname = StringValuePtr(name);
