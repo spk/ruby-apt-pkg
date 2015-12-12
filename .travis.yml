@@ -3,12 +3,11 @@ dist: trusty
 
 language: ruby
 bundler_args: --jobs=3 --retry=3
-before_install:
-  - gem update --remote bundler
 cache: bundler
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -y libapt-pkg-dev
+  - gem install --remote bundler
 rvm:
   - 2.1
   - 2.2
