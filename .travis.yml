@@ -17,8 +17,11 @@ matrix:
     - rvm: ruby-head
   fast_finish: true
 notifications:
-  email:
-    on_success: change
-    on_failure: always
+  irc:
+    channels:
+      - "irc.oftc.net#ruby-apt-pkg"
+    use_notice: true
+    skip_join: true
+  email: false
 script:
   - bundle exec rake
