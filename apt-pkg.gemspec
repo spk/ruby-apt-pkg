@@ -14,8 +14,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/spk/ruby-apt-pkg}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.add_development_dependency('rake', '~> 0')
-  s.add_development_dependency('rake-compiler', '~> 0')
-  s.add_development_dependency('minitest', '~> 0')
-  s.add_development_dependency('rdoc', '~> 0')
+  s.add_development_dependency('rake', '~> 10')
+  s.add_development_dependency('rake-compiler', '~> 0.9')
+  s.add_development_dependency('minitest', '~> 5')
 end
