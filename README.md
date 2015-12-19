@@ -48,6 +48,7 @@ The MIT License
 Copyright (c) 2014-2015 Laurent Arnoud <laurent@spkdev.net>
 
 ---
+[![IRC Network](https://img.shields.io/badge/irc-oftc-blue.svg)](https://webchat.oftc.net/ "#ruby-apt-pkg")
 [![Gem Version](https://badge.fury.io/rb/apt-pkg.svg)](https://rubygems.org/gems/apt-pkg)
 [![Build Status](https://secure.travis-ci.org/spk/ruby-apt-pkg.svg?branch=master)](https://travis-ci.org/spk/ruby-apt-pkg)
 [![License](https://img.shields.io/github/license/spk/ruby-apt-pkg.svg)](http://opensource.org/licenses/MIT)
