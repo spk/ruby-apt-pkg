@@ -1,7 +1,7 @@
 require 'mkmf'
 
-have_library("stdc++")
-have_library("apt-pkg")
+have_library('stdc++')
+have_library('apt-pkg')
 
 dir_config('apt_pkg')
 

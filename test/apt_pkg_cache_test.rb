@@ -12,28 +12,31 @@ describe Debian::AptPkg::PkgCache do
   end
 
   describe '.pkg_names' do
-    it 'argument' do
-      lambda {
+    it 'no argument' do
+      lambda do
         Debian::AptPkg::PkgCache.pkg_names
-      }.must_raise ArgumentError
-
-      lambda {
+      end.must_raise ArgumentError
+    end
+    it 'nil argument' do
+      lambda do
         Debian::AptPkg::PkgCache.pkg_names(nil)
-      }.must_raise ArgumentError
+      end.must_raise ArgumentError
+    end
 
-      lambda {
-        Debian::AptPkg::PkgCache.pkg_names("")
-      }.must_raise ArgumentError
+    it 'blank argument' do
+      lambda do
+        Debian::AptPkg::PkgCache.pkg_names('')
+      end.must_raise ArgumentError
     end
 
     it 'be filtered' do
-      search = Debian::AptPkg::PkgCache.pkg_names("vim")
+      search = Debian::AptPkg::PkgCache.pkg_names('vim')
       # CI specific cache can not be present
       unless search.nil? || search.empty?
-        search.must_include "vim"
-        search.must_include "vim-nox"
-        search.must_include "vim-gtk"
-        search.wont_include "emacs"
+        search.must_include 'vim'
+        search.must_include 'vim-nox'
+        search.must_include 'vim-gtk'
+        search.wont_include 'emacs'
       end
     end
   end

@@ -28,9 +28,9 @@ describe Debian::AptPkg::Configuration do
   end
 
   it 'check_language' do
-    lambda {
+    lambda do
       Debian::AptPkg::Configuration.check_language
-    }.must_raise ArgumentError
+    end.must_raise ArgumentError
 
     langs = Debian::AptPkg::Configuration.languages
     Debian::AptPkg::Configuration.check_language(langs.first).must_equal true
@@ -47,28 +47,28 @@ describe Debian::AptPkg::Configuration do
   end
 
   it 'find configuration value' do
-    lambda {
+    lambda do
       Debian::AptPkg::Configuration.config_find
-    }.must_raise ArgumentError
+    end.must_raise ArgumentError
 
-    Debian::AptPkg::Configuration.config_find('Dir::Etc::main').
-      must_equal "apt.conf"
-    Debian::AptPkg::Configuration.config_find('Dir::Etc::netrc').
-      must_equal "auth.conf"
-    Debian::AptPkg::Configuration.config_find('Dir::Etc::parts').
-      must_equal "apt.conf.d"
-    Debian::AptPkg::Configuration.config_find('Spk', 'DebianUser').
-      must_equal "DebianUser"
+    Debian::AptPkg::Configuration.config_find('Dir::Etc::main')
+      .must_equal 'apt.conf'
+    Debian::AptPkg::Configuration.config_find('Dir::Etc::netrc')
+      .must_equal 'auth.conf'
+    Debian::AptPkg::Configuration.config_find('Dir::Etc::parts')
+      .must_equal 'apt.conf.d'
+    Debian::AptPkg::Configuration.config_find('Spk', 'DebianUser')
+      .must_equal 'DebianUser'
   end
 
   it 'find file' do
-    lambda {
+    lambda do
       Debian::AptPkg::Configuration.config_find_file
-    }.must_raise ArgumentError
+    end.must_raise ArgumentError
 
-    Debian::AptPkg::Configuration.config_find_file('Dir::Etc::main').
-      must_equal "/etc/apt/apt.conf"
-    Debian::AptPkg::Configuration.config_find_file('Dir::Etc::netrc').
-      must_equal "/etc/apt/auth.conf"
+    Debian::AptPkg::Configuration.config_find_file('Dir::Etc::main')
+      .must_equal '/etc/apt/apt.conf'
+    Debian::AptPkg::Configuration.config_find_file('Dir::Etc::netrc')
+      .must_equal '/etc/apt/auth.conf'
   end
 end
