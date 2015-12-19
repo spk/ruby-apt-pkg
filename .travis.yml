@@ -21,5 +21,4 @@ notifications:
     on_success: change
     on_failure: always
 script:
-  - sudo apt update
   - bundle exec rake
