@@ -20,8 +20,6 @@ notifications:
   irc:
     channels:
       - "irc.oftc.net#ruby-apt-pkg"
-    use_notice: true
-    skip_join: true
   email: false
 script:
   - bundle exec rake
