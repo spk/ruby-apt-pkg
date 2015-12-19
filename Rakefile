@@ -22,7 +22,8 @@ task :lint do
   cppcheck_opts = '--error-exitcode=1 --quiet --enable=all --inconclusive' \
     ' --std=posix'
   sh("cppcheck #{cppcheck_opts} ext/apt_pkg") do |ok, res|
-    ok && puts("lint error (status = #{res.exitstatus})")
+    ok || puts("lint error (status = #{res.exitstatus})")
+    exit(res.exitstatus)
   end
 end
 
