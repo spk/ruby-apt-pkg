@@ -5,13 +5,6 @@ Goal of this project is to have a proper Ruby binding to APT like in
 
 Currently install, remove packages commands are **not** implemented.
 
-Simple search is implemented with:
-
-~~~ ruby
-require 'apt_pkg'
-Debian::AptPkg::PkgCache.pkg_names("vim")
-~~~
-
 ## INSTALL
 
 ~~~ console
@@ -21,11 +14,14 @@ gem install apt-pkg
 
 ## USING
 
+Simple search is implemented with:
+
 ~~~ ruby
 require 'apt_pkg'
+Debian::AptPkg::PkgCache.pkg_names("vim")
 ~~~
 
-See https://spk.github.io/ruby-apt-pkg/
+[Documentation](https://spk.github.io/ruby-apt-pkg/)
 
 ## BUILD
 
