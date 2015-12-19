@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "apt-pkg"
-  s.version = '0.0.3'
+  s.version = '0.0.4'
 
   s.authors = ["Laurent Arnoud"]
   s.description = %q{Ruby interface to apt-pkg}
