@@ -16,9 +16,10 @@ VALUE gen_caches(VALUE self) {
 }
 
 /*
- * call-seq: pkg_names() -> array
+ * call-seq: pkg_names() -> array, nil
  *
  * List the names of all packages in the system.
+ * Return nil when cache is not generated.
  *
  *   Debian::AptPkg::PkgCache.pkg_names('gcolor2') # => ["gcolor2"]
  *
@@ -36,6 +37,9 @@ VALUE pkg_names(int argc, VALUE* argv, VALUE self) {
     VALUE result = rb_ary_new();
 
     pkgCacheFile CacheFile;
+    if (CacheFile.GetPkgCache() == 0) {
+        return Qnil;
+    }
     pkgCache::GrpIterator I = CacheFile.GetPkgCache()->GrpBegin();
 
     const char *pkgname = StringValuePtr(name);
