@@ -3,3 +3,5 @@ html/
 *.gem
 Gemfile.lock
 .gdb_history
+Dockerfile
+docker-compose.yml
