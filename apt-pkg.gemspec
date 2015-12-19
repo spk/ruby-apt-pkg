@@ -9,7 +9,8 @@ Gem::Specification.new do |s|
   s.license = "MIT"
   s.extensions = ["ext/apt_pkg/extconf.rb"]
   s.extra_rdoc_files = Dir['*.md', 'ext/**/*.cpp']
-  s.files = `git ls-files`.split($\)
+  s.files = Dir['LICENSE', 'README.md', 'History.md', 'Gemfile', 'lib/**/*.rb',
+                'ext/**/*', 'test/**/*']
   s.homepage = %q{http://github.com/spk/ruby-apt-pkg}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
