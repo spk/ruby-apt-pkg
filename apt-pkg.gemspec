@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "apt-pkg"
-  s.version = '0.0.2'
+  s.version = '0.0.3'
 
   s.authors = ["Laurent Arnoud"]
   s.description = %q{Ruby interface to apt-pkg}
@@ -14,8 +14,8 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/spk/ruby-apt-pkg}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.add_development_dependency('rake')
-  s.add_development_dependency('rake-compiler')
-  s.add_development_dependency('minitest')
-  s.add_development_dependency('rdoc')
+  s.add_development_dependency('rake', '~> 0')
+  s.add_development_dependency('rake-compiler', '~> 0')
+  s.add_development_dependency('minitest', '~> 0')
+  s.add_development_dependency('rdoc', '~> 0')
 end

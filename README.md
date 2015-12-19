@@ -3,7 +3,14 @@
 Goal of this project is to have a proper Ruby binding to APT like in
 [Python](https://apt.alioth.debian.org/python-apt-doc/library/apt_pkg.html).
 
-Currently install, remove packages is not implemented.
+Currently install, remove packages commands are **not** implemented.
+
+Simple search is implemented with:
+
+~~~ ruby
+require 'apt_pkg'
+Debian::AptPkg::PkgCache.pkg_names("vim")
+~~~
 
 ## INSTALL
 
