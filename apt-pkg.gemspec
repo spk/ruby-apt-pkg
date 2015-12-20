@@ -1,6 +1,9 @@
+version_file = 'lib/debian/apt_pkg/version'
+require File.expand_path("../#{version_file}", __FILE__)
+
 Gem::Specification.new do |s|
   s.name = 'apt-pkg'
-  s.version = '0.0.4'
+  s.version = Debian::AptPkg::VERSION
 
   s.authors = ['Laurent Arnoud']
   s.email = 'laurent@spkdev.net'

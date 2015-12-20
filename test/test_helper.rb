@@ -3,4 +3,4 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require 'pp'
 
-require_relative '../lib/apt_pkg'
+require_relative '../lib/debian/apt_pkg'

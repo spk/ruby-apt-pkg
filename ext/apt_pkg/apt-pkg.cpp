@@ -180,9 +180,10 @@ Init_apt_pkg() {
     rb_define_const(rb_mDebianAptPkg, "NOT_EQUALS", INT2FIX(pkgCache::Dep::NotEquals));
 
     /* Represents the version of apt. */
-    rb_define_const(rb_mDebianAptPkg, "VERSION", rb_str_new2(pkgVersion));
+    rb_define_const(rb_mDebianAptPkg, "APT_VERSION", rb_str_new2(pkgVersion));
     /* Represents the version of apt_pkg library. */
-    rb_define_const(rb_mDebianAptPkg, "LIB_VERSION", rb_str_new2(pkgLibVersion));
+    rb_define_const(rb_mDebianAptPkg, "LIBAPT_PKG_VERSION",
+        rb_str_new2(pkgLibVersion));
 
     init_apt_pkg_configuration();
     init_apt_pkg_pkgcache();

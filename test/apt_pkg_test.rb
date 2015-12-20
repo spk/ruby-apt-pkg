@@ -1,6 +1,18 @@
 require_relative 'test_helper'
 
 describe Debian::AptPkg do
+  it 'gem has a version number' do
+    refute_nil Debian::AptPkg::VERSION
+  end
+
+  it 'apt has a version number' do
+    refute_nil Debian::AptPkg::APT_VERSION
+  end
+
+  it 'libapt-pkg has a version number' do
+    refute_nil Debian::AptPkg::LIBAPT_PKG_VERSION
+  end
+
   describe '.cmp_version' do
     it 'should compare version' do
       Debian::AptPkg.cmp_version('1.1', '1.0').must_be :>, 0

@@ -17,7 +17,7 @@ gem install apt-pkg
 Simple search is implemented with:
 
 ~~~ ruby
-require 'apt_pkg'
+require 'debian/apt_pkg'
 Debian::AptPkg::PkgCache.pkg_names("vim")
 ~~~
 
