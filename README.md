@@ -7,35 +7,35 @@ Currently install, remove packages commands are **not** implemented.
 
 ## INSTALL
 
-~~~ console
-aptitude install build-essential ruby-dev libapt-pkg-dev (~> 1.0)
+``` console
+aptitude install build-essential ruby-dev libapt-pkg-dev (`> 1.0)
 gem install apt-pkg
-~~~
+```
 
 ## USING
 
 Simple search is implemented with:
 
-~~~ ruby
+``` ruby
 require 'debian/apt_pkg'
 Debian::AptPkg::PkgCache.pkg_names("vim")
-~~~
+```
 
 [Documentation](https://spk.github.io/ruby-apt-pkg/)
 
 ## BUILD
 
-~~~ console
+``` console
 gem install bundler
 bundle install
 bundle exec rake compile
-~~~
+```
 
 ## TEST
 
-~~~ console
+``` console
 bundle exec rake test
-~~~
+```
 
 ## LICENSE
 
