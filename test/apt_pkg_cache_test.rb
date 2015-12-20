@@ -40,4 +40,14 @@ describe Debian::AptPkg::PkgCache do
       end
     end
   end
+
+  %i(package version depends package_file ver_file provides group).each do |m|
+    describe ".#{m}_count" do
+      it 'return an int' do
+        if Process.uid == 0
+          Debian::AptPkg::PkgCache.public_send("#{m}_count").must_be :>=, 0
+        end
+      end
+    end
+  end
 end
