@@ -18,6 +18,7 @@ Simple search is implemented with:
 
 ``` ruby
 require 'debian/apt_pkg'
+Debian::AptPkg.init
 Debian::AptPkg::PkgCache.pkg_names("vim")
 ```
 

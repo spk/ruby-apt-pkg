@@ -3,6 +3,49 @@
 #include "pkgcache.h"
 
 /*
+ * call-seq: init() -> nil
+ *
+ * Shorthand for doing init_config() and init_system().
+ *
+ *   Debian::AptPkg.init # => nil
+ *
+ **/
+static
+VALUE init(VALUE self) {
+    pkgInitConfig(*_config);
+    pkgInitSystem(*_config, _system);
+    return Qnil;
+}
+
+/*
+ * call-seq: init_config() -> bool
+ *
+ * Load the default configuration and the config file.
+ *
+ *   Debian::AptPkg.init_config # => false
+ *
+ **/
+static
+VALUE init_config(VALUE self) {
+    int res = pkgInitConfig(*_config);
+    return INT2BOOL(res);
+}
+
+/*
+ * call-seq: init_system() -> bool
+ *
+ * Construct the apt_pkg system.
+ *
+ *   Debian::AptPkg.init_system # => false
+ *
+ **/
+static
+VALUE init_system(VALUE self) {
+    int res = pkgInitSystem(*_config, _system);
+    return INT2BOOL(res);
+}
+
+/*
  * call-seq: cmp_version(pkg_version_a, pkg_version_b) -> int
  *
  * Compare the given versions.
@@ -140,14 +183,18 @@ VALUE check_domain_list(VALUE self, VALUE host, VALUE list) {
 
 void
 Init_apt_pkg() {
-    pkgInitConfig(*_config);
-    pkgInitSystem(*_config, _system);
-
     /* Base module */
     VALUE rb_mDebian = rb_define_module("Debian");
     VALUE rb_mDebianAptPkg = rb_define_module_under(rb_mDebian, "AptPkg");
     VALUE rb_mDebianAptPkgConfiguration 
         = rb_define_module_under(rb_mDebianAptPkg, "Configuration");
+
+    rb_define_singleton_method(rb_mDebianAptPkg, "init",
+            RUBY_METHOD_FUNC(init), 0);
+    rb_define_singleton_method(rb_mDebianAptPkg, "init_config",
+            RUBY_METHOD_FUNC(init_config), 0);
+    rb_define_singleton_method(rb_mDebianAptPkg, "init_system",
+            RUBY_METHOD_FUNC(init_system), 0);
 
     rb_define_singleton_method(rb_mDebianAptPkg, "uri_to_filename",
             RUBY_METHOD_FUNC(uri_to_filename), 1);

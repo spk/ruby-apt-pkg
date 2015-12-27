@@ -1,15 +1,30 @@
 #include "pkgcache.h"
 
 /*
+ * private
+ */
+bool config_system_initialized() {
+    string const arch = _config->Find("APT::Architecture");
+    if (arch.empty()) {
+        return false;
+    }
+    return true;
+}
+
+/*
  * call-seq: gen_caches() -> bool
  *
  * Call the main cache generator.
+ * Return `nil` when config, system, cache is not configured.
  *
  *   Debian::AptPkg::PkgCache.gen_caches # => false
  *
  **/
 static
 VALUE gen_caches(VALUE self) {
+    if (!config_system_initialized()) {
+        return Qnil;
+    }
     pkgCacheFile CacheFile;
     int res = CacheFile.BuildCaches(NULL, true);
     return INT2BOOL(res);
@@ -19,12 +34,16 @@ VALUE gen_caches(VALUE self) {
  * call-seq: is_multi_arch() -> bool
  *
  * An attribute determining whether the cache supports multi-arch.
+ * Return `nil` when config, system, cache is not configured.
  *
  *   Debian::AptPkg::PkgCache.is_multi_arch # => false
  *
  **/
 static
 VALUE is_multi_arch(VALUE self) {
+    if (!config_system_initialized()) {
+        return Qnil;
+    }
     pkgCacheFile CacheFile;
     pkgCache *Cache = CacheFile.GetPkgCache();
     if (Cache == NULL) {
@@ -38,13 +57,16 @@ VALUE is_multi_arch(VALUE self) {
  * call-seq: pkg_names() -> array, nil
  *
  * List the names of all packages in the system.
- * Return `nil` when cache is not generated.
+ * Return `nil` when config, system, cache is not configured.
  *
  *   Debian::AptPkg::PkgCache.pkg_names('gcolor2') # => ["gcolor2"]
  *
  **/
 static
 VALUE pkg_names(int argc, VALUE* argv, VALUE self) {
+    if (!config_system_initialized()) {
+        return Qnil;
+    }
     if (argc > 1 || argc == 0) {
         rb_raise(rb_eArgError, "You must give at least one search argument");
     }
