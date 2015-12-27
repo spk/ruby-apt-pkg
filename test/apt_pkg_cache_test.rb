@@ -11,6 +11,12 @@ describe Debian::AptPkg::PkgCache do
     end
   end
 
+  describe '.is_multi_arch' do
+    it 'can be called' do
+      Debian::AptPkg::PkgCache.is_multi_arch
+    end
+  end
+
   describe '.pkg_names' do
     it 'no argument' do
       lambda do

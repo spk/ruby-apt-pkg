@@ -16,6 +16,25 @@ VALUE gen_caches(VALUE self) {
 }
 
 /*
+ * call-seq: is_multi_arch() -> bool
+ *
+ * An attribute determining whether the cache supports multi-arch.
+ *
+ *   Debian::AptPkg::PkgCache.is_multi_arch # => false
+ *
+ **/
+static
+VALUE is_multi_arch(VALUE self) {
+    pkgCacheFile CacheFile;
+    pkgCache *Cache = CacheFile.GetPkgCache();
+    if (Cache == NULL) {
+        return Qnil;
+    }
+    int res = Cache->MultiArchCache();
+    return INT2BOOL(res);
+}
+
+/*
  * call-seq: pkg_names() -> array, nil
  *
  * List the names of all packages in the system.
@@ -193,6 +212,8 @@ init_apt_pkg_pkgcache() {
 
     rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "gen_caches",
             RUBY_METHOD_FUNC(gen_caches), 0);
+    rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "is_multi_arch",
+            RUBY_METHOD_FUNC(is_multi_arch), 0);
     rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "pkg_names",
             RUBY_METHOD_FUNC(pkg_names), -1);
 
