@@ -12,9 +12,9 @@
  **/
 static
 VALUE init(VALUE self) {
-    pkgInitConfig(*_config);
-    pkgInitSystem(*_config, _system);
-    return Qnil;
+  pkgInitConfig(*_config);
+  pkgInitSystem(*_config, _system);
+  return Qnil;
 }
 
 /*
@@ -27,8 +27,8 @@ VALUE init(VALUE self) {
  **/
 static
 VALUE init_config(VALUE self) {
-    int res = pkgInitConfig(*_config);
-    return INT2BOOL(res);
+  int res = pkgInitConfig(*_config);
+  return INT2BOOL(res);
 }
 
 /*
@@ -41,8 +41,8 @@ VALUE init_config(VALUE self) {
  **/
 static
 VALUE init_system(VALUE self) {
-    int res = pkgInitSystem(*_config, _system);
-    return INT2BOOL(res);
+  int res = pkgInitSystem(*_config, _system);
+  return INT2BOOL(res);
 }
 
 /*
@@ -60,9 +60,9 @@ VALUE init_system(VALUE self) {
  **/
 static
 VALUE cmp_version(VALUE self, VALUE pkg_version_a, VALUE pkg_version_b) {
-    int res = debVS.CmpVersion(StringValuePtr(pkg_version_a),
-            StringValuePtr(pkg_version_b));
-    return INT2FIX(res);
+  int res = debVS.CmpVersion(StringValuePtr(pkg_version_a),
+      StringValuePtr(pkg_version_b));
+  return INT2FIX(res);
 }
 
 /*
@@ -82,22 +82,22 @@ VALUE cmp_version(VALUE self, VALUE pkg_version_a, VALUE pkg_version_b) {
  **/
 static
 VALUE check_dep(VALUE self, VALUE pkg_version_a, VALUE cmp_type, VALUE pkg_version_b) {
-    unsigned int op = 0;
-    if (TYPE(cmp_type) == T_FIXNUM) {
-        op = NUM2INT(cmp_type);
-    } else {
-        const char *op_str = StringValuePtr(cmp_type);
-        if (strcmp(op_str, ">") == 0) op_str = ">>";
-        if (strcmp(op_str, "<") == 0) op_str = "<<";
-        if (*debListParser::ConvertRelation(op_str, op) != 0)
-        {
-            rb_raise(rb_eArgError, "Bad comparison operation");
-            return 0;
-        }
+  unsigned int op = 0;
+  if (TYPE(cmp_type) == T_FIXNUM) {
+    op = NUM2INT(cmp_type);
+  } else {
+    const char *op_str = StringValuePtr(cmp_type);
+    if (strcmp(op_str, ">") == 0) op_str = ">>";
+    if (strcmp(op_str, "<") == 0) op_str = "<<";
+    if (*debListParser::ConvertRelation(op_str, op) != 0)
+    {
+      rb_raise(rb_eArgError, "Bad comparison operation");
+      return 0;
     }
-    int res = debVS.CheckDep(StringValuePtr(pkg_version_a), op,
-            StringValuePtr(pkg_version_b));
-    return INT2BOOL(res);
+  }
+  int res = debVS.CheckDep(StringValuePtr(pkg_version_a), op,
+      StringValuePtr(pkg_version_b));
+  return INT2BOOL(res);
 }
 
 /*
@@ -110,7 +110,7 @@ VALUE check_dep(VALUE self, VALUE pkg_version_a, VALUE cmp_type, VALUE pkg_versi
  **/
 static
 VALUE uri_to_filename(VALUE self, VALUE uri) {
-    return rb_str_new2(URItoFileName(StringValuePtr(uri)).c_str());
+  return rb_str_new2(URItoFileName(StringValuePtr(uri)).c_str());
 }
 
 /*
@@ -123,7 +123,7 @@ VALUE uri_to_filename(VALUE self, VALUE uri) {
  **/
 static
 VALUE upstream_version(VALUE self, VALUE ver) {
-    return rb_str_new2(debVS.UpstreamVersion(StringValuePtr(ver)).c_str());
+  return rb_str_new2(debVS.UpstreamVersion(StringValuePtr(ver)).c_str());
 }
 
 /*
@@ -136,7 +136,7 @@ VALUE upstream_version(VALUE self, VALUE ver) {
  **/
 static
 VALUE time_to_str(VALUE self, VALUE secondes) {
-    return rb_str_new2(TimeToStr(NUM2INT(secondes)).c_str());
+  return rb_str_new2(TimeToStr(NUM2INT(secondes)).c_str());
 }
 
 /*
@@ -149,7 +149,7 @@ VALUE time_to_str(VALUE self, VALUE secondes) {
  **/
 static
 VALUE size_to_str(VALUE self, VALUE size) {
-    return rb_str_new2(SizeToStr(NUM2INT(size)).c_str());
+  return rb_str_new2(SizeToStr(NUM2INT(size)).c_str());
 }
 
 /*
@@ -164,7 +164,7 @@ VALUE size_to_str(VALUE self, VALUE size) {
  **/
 static
 VALUE string_to_bool(VALUE self, VALUE text) {
-    return INT2BOOL(StringToBool(StringValuePtr(text)) == 1);
+  return INT2BOOL(StringToBool(StringValuePtr(text)) == 1);
 }
 
 /*
@@ -177,61 +177,61 @@ VALUE string_to_bool(VALUE self, VALUE text) {
  **/
 static
 VALUE check_domain_list(VALUE self, VALUE host, VALUE list) {
-    int res = CheckDomainList(StringValuePtr(host), StringValuePtr(list));
-    return INT2BOOL(res);
+  int res = CheckDomainList(StringValuePtr(host), StringValuePtr(list));
+  return INT2BOOL(res);
 }
 
 void
 Init_apt_pkg() {
-    /* Base module */
-    VALUE rb_mDebian = rb_define_module("Debian");
-    VALUE rb_mDebianAptPkg = rb_define_module_under(rb_mDebian, "AptPkg");
-    VALUE rb_mDebianAptPkgConfiguration 
-        = rb_define_module_under(rb_mDebianAptPkg, "Configuration");
+  /* Base module */
+  VALUE rb_mDebian = rb_define_module("Debian");
+  VALUE rb_mDebianAptPkg = rb_define_module_under(rb_mDebian, "AptPkg");
+  VALUE rb_mDebianAptPkgConfiguration 
+    = rb_define_module_under(rb_mDebianAptPkg, "Configuration");
 
-    rb_define_singleton_method(rb_mDebianAptPkg, "init",
-            RUBY_METHOD_FUNC(init), 0);
-    rb_define_singleton_method(rb_mDebianAptPkg, "init_config",
-            RUBY_METHOD_FUNC(init_config), 0);
-    rb_define_singleton_method(rb_mDebianAptPkg, "init_system",
-            RUBY_METHOD_FUNC(init_system), 0);
+  rb_define_singleton_method(rb_mDebianAptPkg, "init",
+      RUBY_METHOD_FUNC(init), 0);
+  rb_define_singleton_method(rb_mDebianAptPkg, "init_config",
+      RUBY_METHOD_FUNC(init_config), 0);
+  rb_define_singleton_method(rb_mDebianAptPkg, "init_system",
+      RUBY_METHOD_FUNC(init_system), 0);
 
-    rb_define_singleton_method(rb_mDebianAptPkg, "uri_to_filename",
-            RUBY_METHOD_FUNC(uri_to_filename), 1);
-    rb_define_singleton_method(rb_mDebianAptPkg, "time_to_str",
-            RUBY_METHOD_FUNC(time_to_str), 1);
-    rb_define_singleton_method(rb_mDebianAptPkg, "size_to_str",
-            RUBY_METHOD_FUNC(size_to_str), 1);
-    rb_define_singleton_method(rb_mDebianAptPkg, "string_to_bool",
-            RUBY_METHOD_FUNC(string_to_bool), 1);
-    rb_define_singleton_method(rb_mDebianAptPkg, "check_domain_list",
-            RUBY_METHOD_FUNC(check_domain_list), 2);
-    rb_define_singleton_method(rb_mDebianAptPkg, "cmp_version",
-            RUBY_METHOD_FUNC(cmp_version), 2);
-    rb_define_singleton_method(rb_mDebianAptPkg, "check_dep",
-            RUBY_METHOD_FUNC(check_dep), 3);
-    rb_define_singleton_method(rb_mDebianAptPkg, "upstream_version",
-            RUBY_METHOD_FUNC(upstream_version), 1);
+  rb_define_singleton_method(rb_mDebianAptPkg, "uri_to_filename",
+      RUBY_METHOD_FUNC(uri_to_filename), 1);
+  rb_define_singleton_method(rb_mDebianAptPkg, "time_to_str",
+      RUBY_METHOD_FUNC(time_to_str), 1);
+  rb_define_singleton_method(rb_mDebianAptPkg, "size_to_str",
+      RUBY_METHOD_FUNC(size_to_str), 1);
+  rb_define_singleton_method(rb_mDebianAptPkg, "string_to_bool",
+      RUBY_METHOD_FUNC(string_to_bool), 1);
+  rb_define_singleton_method(rb_mDebianAptPkg, "check_domain_list",
+      RUBY_METHOD_FUNC(check_domain_list), 2);
+  rb_define_singleton_method(rb_mDebianAptPkg, "cmp_version",
+      RUBY_METHOD_FUNC(cmp_version), 2);
+  rb_define_singleton_method(rb_mDebianAptPkg, "check_dep",
+      RUBY_METHOD_FUNC(check_dep), 3);
+  rb_define_singleton_method(rb_mDebianAptPkg, "upstream_version",
+      RUBY_METHOD_FUNC(upstream_version), 1);
 
-    /* Represents less equal operator. */
-    rb_define_const(rb_mDebianAptPkg, "LESS_EQ", INT2FIX(pkgCache::Dep::LessEq));
-    /* Represents greater equal operator. */
-    rb_define_const(rb_mDebianAptPkg, "GREATER_EQ", INT2FIX(pkgCache::Dep::GreaterEq));
-    /* Represents less operator. */
-    rb_define_const(rb_mDebianAptPkg, "LESS", INT2FIX(pkgCache::Dep::Less));
-    /* Represents greater operator. */
-    rb_define_const(rb_mDebianAptPkg, "GREATER", INT2FIX(pkgCache::Dep::Greater));
-    /* Represents equals operator. */
-    rb_define_const(rb_mDebianAptPkg, "EQUALS", INT2FIX(pkgCache::Dep::Equals));
-    /* Represents not equals operator. */
-    rb_define_const(rb_mDebianAptPkg, "NOT_EQUALS", INT2FIX(pkgCache::Dep::NotEquals));
+  /* Represents less equal operator. */
+  rb_define_const(rb_mDebianAptPkg, "LESS_EQ", INT2FIX(pkgCache::Dep::LessEq));
+  /* Represents greater equal operator. */
+  rb_define_const(rb_mDebianAptPkg, "GREATER_EQ", INT2FIX(pkgCache::Dep::GreaterEq));
+  /* Represents less operator. */
+  rb_define_const(rb_mDebianAptPkg, "LESS", INT2FIX(pkgCache::Dep::Less));
+  /* Represents greater operator. */
+  rb_define_const(rb_mDebianAptPkg, "GREATER", INT2FIX(pkgCache::Dep::Greater));
+  /* Represents equals operator. */
+  rb_define_const(rb_mDebianAptPkg, "EQUALS", INT2FIX(pkgCache::Dep::Equals));
+  /* Represents not equals operator. */
+  rb_define_const(rb_mDebianAptPkg, "NOT_EQUALS", INT2FIX(pkgCache::Dep::NotEquals));
 
-    /* Represents the version of apt. */
-    rb_define_const(rb_mDebianAptPkg, "APT_VERSION", rb_str_new2(pkgVersion));
-    /* Represents the version of apt_pkg library. */
-    rb_define_const(rb_mDebianAptPkg, "LIBAPT_PKG_VERSION",
-        rb_str_new2(pkgLibVersion));
+  /* Represents the version of apt. */
+  rb_define_const(rb_mDebianAptPkg, "APT_VERSION", rb_str_new2(pkgVersion));
+  /* Represents the version of apt_pkg library. */
+  rb_define_const(rb_mDebianAptPkg, "LIBAPT_PKG_VERSION",
+      rb_str_new2(pkgLibVersion));
 
-    init_apt_pkg_configuration();
-    init_apt_pkg_pkgcache();
+  init_apt_pkg_configuration();
+  init_apt_pkg_pkgcache();
 }
