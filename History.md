@@ -1,4 +1,11 @@
 
+0.2.0 / 2016-01-04
+==================
+
+  * Fix cache count methods when not init
+  * Add init, init_{config,system}
+  * Add PkgCache.is_multi_arch method
+
 0.1.0 / 2015-12-20
 ==================
 
