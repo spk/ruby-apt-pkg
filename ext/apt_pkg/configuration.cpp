@@ -8,13 +8,13 @@
  *   Debian::AptPkg::Configuration.architectures # => ["amd64"]
  *
  **/
-static
-VALUE architectures(VALUE self) {
+static VALUE
+architectures(VALUE self)
+{
   VALUE result = rb_ary_new();
-  std::vector<std::string> arches = APT::Configuration::getArchitectures();
-  std::vector<std::string>::const_iterator I;
-  for (I = arches.begin(); I != arches.end(); I++)
-  {
+  std::vector < std::string > arches = APT::Configuration::getArchitectures();
+  std::vector < std::string >::const_iterator I;
+  for (I = arches.begin(); I != arches.end(); I++) {
     rb_ary_push(result, rb_str_new2((*I).c_str()));
   }
   return result;
@@ -28,8 +28,9 @@ VALUE architectures(VALUE self) {
  *   Debian::AptPkg::Configuration.check_architecture("all") # => true
  *
  **/
-static
-VALUE check_architecture(VALUE self, VALUE arch) {
+static VALUE
+check_architecture(VALUE self, VALUE arch)
+{
   int res = APT::Configuration::checkArchitecture(StringValuePtr(arch));
   return INT2BOOL(res);
 }
@@ -47,15 +48,16 @@ VALUE check_architecture(VALUE self, VALUE arch) {
  *   Debian::AptPkg::Configuration.languages(false) # => ["en"]
  *
  **/
-static
-VALUE languages(int argc, VALUE* argv, VALUE self) {
+static VALUE
+languages(int argc, VALUE *argv, VALUE self)
+{
   VALUE all;
   rb_scan_args(argc, argv, "01", &all);
   VALUE result = rb_ary_new();
-  std::vector<std::string> const langs = APT::Configuration::getLanguages(all);
-  std::vector<std::string>::const_iterator I;
-  for (I = langs.begin(); I != langs.end(); I++)
-  {
+  std::vector < std::string > const langs =
+    APT::Configuration::getLanguages(all);
+  std::vector < std::string >::const_iterator I;
+  for (I = langs.begin(); I != langs.end(); I++) {
     rb_ary_push(result, rb_str_new2((*I).c_str()));
   }
   return result;
@@ -69,13 +71,14 @@ VALUE languages(int argc, VALUE* argv, VALUE self) {
  *   Debian::AptPkg::Configuration.check_language("fr") # => true
  *
  **/
-static
-VALUE check_language(int argc, VALUE* argv, VALUE self) {
+static VALUE
+check_language(int argc, VALUE *argv, VALUE self)
+{
   if (argc > 2 || argc == 0) {
     rb_raise(rb_eArgError, "wrong number of arguments");
   }
   VALUE lang, all;
-  rb_scan_args(argc, argv, "11", &lang,  &all);
+  rb_scan_args(argc, argv, "11", &lang, &all);
   int res = APT::Configuration::checkLanguage(StringValuePtr(lang), all);
   return INT2BOOL(res);
 }
@@ -88,13 +91,13 @@ VALUE check_language(int argc, VALUE* argv, VALUE self) {
  *   Debian::AptPkg::Configuration.compressors # => ["gz"]
  *
  **/
-static
-VALUE compressors(VALUE self) {
+static VALUE
+compressors(VALUE self)
+{
   VALUE result = rb_ary_new();
-  std::vector<std::string> cmps = APT::Configuration::getCompressionTypes();
-  std::vector<std::string>::const_iterator I;
-  for (I = cmps.begin(); I != cmps.end(); I++)
-  {
+  std::vector < std::string > cmps = APT::Configuration::getCompressionTypes();
+  std::vector < std::string >::const_iterator I;
+  for (I = cmps.begin(); I != cmps.end(); I++) {
     rb_ary_push(result, rb_str_new2((*I).c_str()));
   }
   return result;
@@ -114,17 +117,18 @@ VALUE compressors(VALUE self) {
  *   Debian::AptPkg::Configuration.config_find('Dir::Etc::main') # => "apt.conf"
  *
  **/
-static
-VALUE config_find(int argc, VALUE* argv, VALUE self) {
+static VALUE
+config_find(int argc, VALUE *argv, VALUE self)
+{
   if (argc > 2 || argc == 0) {
     rb_raise(rb_eArgError, "wrong number of arguments");
   }
   VALUE name, default_key;
-  rb_scan_args(argc, argv, "11", &name,  &default_key);
+  rb_scan_args(argc, argv, "11", &name, &default_key);
   if (NIL_P(default_key))
     default_key = rb_str_new2("");
   return rb_str_new2(_config->Find(StringValuePtr(name),
-        StringValuePtr(default_key)).c_str());
+                                   StringValuePtr(default_key)).c_str());
 }
 
 /*
@@ -144,39 +148,43 @@ VALUE config_find(int argc, VALUE* argv, VALUE self) {
  *   Debian::AptPkg::Configuration.config_find_file('Dir::Etc::main') # => "/etc/apt/apt.conf"
  *
  **/
-static
-VALUE config_find_file(int argc, VALUE* argv, VALUE self) {
+static VALUE
+config_find_file(int argc, VALUE *argv, VALUE self)
+{
   if (argc > 2 || argc == 0) {
     rb_raise(rb_eArgError, "wrong number of arguments");
   }
   VALUE name, default_key;
-  rb_scan_args(argc, argv, "11", &name,  &default_key);
+  rb_scan_args(argc, argv, "11", &name, &default_key);
   if (NIL_P(default_key))
     default_key = rb_str_new2("");
   return rb_str_new2(_config->FindFile(StringValuePtr(name),
-        StringValuePtr(default_key)).c_str());
+                                       StringValuePtr(default_key)).c_str());
 }
 
 void
-init_apt_pkg_configuration() {
+init_apt_pkg_configuration()
+{
   VALUE rb_mDebian = rb_define_module("Debian");
   VALUE rb_mDebianAptPkg = rb_define_module_under(rb_mDebian, "AptPkg");
   VALUE rb_mDebianAptPkgConfiguration =
     rb_define_module_under(rb_mDebianAptPkg, "Configuration");
 
   rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "architectures",
-      RUBY_METHOD_FUNC(architectures), 0);
-  rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "check_architecture",
-      RUBY_METHOD_FUNC(check_architecture), 1);
+                             RUBY_METHOD_FUNC(architectures), 0);
+  rb_define_singleton_method(rb_mDebianAptPkgConfiguration,
+                             "check_architecture",
+                             RUBY_METHOD_FUNC(check_architecture), 1);
   rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "languages",
-      RUBY_METHOD_FUNC(languages), -1);
+                             RUBY_METHOD_FUNC(languages), -1);
   rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "check_language",
-      RUBY_METHOD_FUNC(check_language), -1);
+                             RUBY_METHOD_FUNC(check_language), -1);
   rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "compressors",
-      RUBY_METHOD_FUNC(compressors), 0);
+                             RUBY_METHOD_FUNC(compressors), 0);
 
   rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "config_find",
-      RUBY_METHOD_FUNC(config_find), -1);
-  rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "config_find_file",
-      RUBY_METHOD_FUNC(config_find_file), -1);
+                             RUBY_METHOD_FUNC(config_find), -1);
+  rb_define_singleton_method(rb_mDebianAptPkgConfiguration,
+                             "config_find_file",
+                             RUBY_METHOD_FUNC(config_find_file), -1);
 }
