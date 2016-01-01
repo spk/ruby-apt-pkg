@@ -1,6 +1,10 @@
 require_relative 'test_helper'
 
 describe Debian::AptPkg::Configuration do
+  before :all do
+    Debian::AptPkg.init
+  end
+
   it 'architectures return an array' do
     arches = Debian::AptPkg::Configuration.architectures
     arches.must_be_instance_of Array

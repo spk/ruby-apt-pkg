@@ -101,7 +101,7 @@ pkg_names(int argc, VALUE *argv, VALUE self)
  * call-seq: package_count() -> int, nil
  *
  * The total number of packages available in the cache.
- * Return `nil` when cache is not generated.
+ * Return `nil` when config, system, cache is not configured.
  *
  *   Debian::AptPkg::PkgCache.package_count # => 69511
  *
@@ -109,6 +109,9 @@ pkg_names(int argc, VALUE *argv, VALUE self)
 static VALUE
 package_count(VALUE self)
 {
+  if (!config_system_initialized()) {
+    return Qnil;
+  }
   pkgCacheFile CacheFile;
   pkgCache *Cache = CacheFile.GetPkgCache();
   if (Cache == NULL) {
@@ -121,7 +124,7 @@ package_count(VALUE self)
  * call-seq: version_count() -> int, nil
  *
  * The total number of package versions available in the cache.
- * Return `nil` when cache is not generated.
+ * Return `nil` when config, system, cache is not configured.
  *
  *   Debian::AptPkg::PkgCache.version_count # => 84630
  *
@@ -129,6 +132,9 @@ package_count(VALUE self)
 static VALUE
 version_count(VALUE self)
 {
+  if (!config_system_initialized()) {
+    return Qnil;
+  }
   pkgCacheFile CacheFile;
   pkgCache *Cache = CacheFile.GetPkgCache();
   if (Cache == NULL) {
@@ -141,7 +147,7 @@ version_count(VALUE self)
  * call-seq: depends_count() -> int, nil
  *
  * The total number of dependencies stored in the cache.
- * Return `nil` when cache is not generated.
+ * Return `nil` when config, system, cache is not configured.
  *
  *   Debian::AptPkg::PkgCache.depends_count # => 551983
  *
@@ -149,6 +155,9 @@ version_count(VALUE self)
 static VALUE
 depends_count(VALUE self)
 {
+  if (!config_system_initialized()) {
+    return Qnil;
+  }
   pkgCacheFile CacheFile;
   pkgCache *Cache = CacheFile.GetPkgCache();
   if (Cache == NULL) {
@@ -161,7 +170,7 @@ depends_count(VALUE self)
  * call-seq: package_file_count() -> int, nil
  *
  * The total number of packages files available.
- * Return `nil` when cache is not generated.
+ * Return `nil` when config, system, cache is not configured.
  *
  *   Debian::AptPkg::PkgCache.package_file_count # => 17
  *
@@ -169,6 +178,9 @@ depends_count(VALUE self)
 static VALUE
 package_file_count(VALUE self)
 {
+  if (!config_system_initialized()) {
+    return Qnil;
+  }
   pkgCacheFile CacheFile;
   pkgCache *Cache = CacheFile.GetPkgCache();
   if (Cache == NULL) {
@@ -181,7 +193,7 @@ package_file_count(VALUE self)
  * call-seq: ver_file_count() -> int, nil
  *
  * The total number of version and package file relations stored in the cache.
- * Return `nil` when cache is not generated.
+ * Return `nil` when config, system, cache is not configured.
  *
  *   Debian::AptPkg::PkgCache.ver_file_count # => 11274
  *
@@ -189,6 +201,9 @@ package_file_count(VALUE self)
 static VALUE
 ver_file_count(VALUE self)
 {
+  if (!config_system_initialized()) {
+    return Qnil;
+  }
   pkgCacheFile CacheFile;
   pkgCache *Cache = CacheFile.GetPkgCache();
   if (Cache == NULL) {
@@ -201,7 +216,7 @@ ver_file_count(VALUE self)
  * call-seq: provides_count() -> int, nil
  *
  * The number of provided packages.
- * Return `nil` when cache is not generated.
+ * Return `nil` when config, system, cache is not configured.
  *
  *   Debian::AptPkg::PkgCache.provides_count # => 69511
  *
@@ -209,6 +224,9 @@ ver_file_count(VALUE self)
 static VALUE
 provides_count(VALUE self)
 {
+  if (!config_system_initialized()) {
+    return Qnil;
+  }
   pkgCacheFile CacheFile;
   pkgCache *Cache = CacheFile.GetPkgCache();
   if (Cache == NULL) {
@@ -221,7 +239,7 @@ provides_count(VALUE self)
  * call-seq: group_count() -> int, nil
  *
  * The number of groups in the cache.
- * Return `nil` when cache is not generated.
+ * Return `nil` when config, system, cache is not configured.
  *
  *   Debian::AptPkg::PkgCache.group_count # => 16730
  *
@@ -229,6 +247,9 @@ provides_count(VALUE self)
 static VALUE
 group_count(VALUE self)
 {
+  if (!config_system_initialized()) {
+    return Qnil;
+  }
   pkgCacheFile CacheFile;
   pkgCache *Cache = CacheFile.GetPkgCache();
   if (Cache == NULL) {

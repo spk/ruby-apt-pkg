@@ -1,6 +1,10 @@
 require_relative 'test_helper'
 
 describe Debian::AptPkg::PkgCache do
+  before :all do
+    Debian::AptPkg.init
+  end
+
   describe '.gen_caches' do
     it 'return boolean' do
       if Process.uid == 0
