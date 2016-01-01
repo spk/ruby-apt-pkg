@@ -8,7 +8,7 @@ Currently install, remove packages commands are **not** implemented.
 ## INSTALL
 
 ``` console
-aptitude install build-essential ruby-dev libapt-pkg-dev (`> 1.0)
+apt install build-essential ruby-dev libapt-pkg-dev (>= 1.0)
 gem install apt-pkg
 ```
 
