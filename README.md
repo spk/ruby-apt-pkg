@@ -14,7 +14,7 @@ gem install apt-pkg
 
 ## USING
 
-Simple search is implemented with:
+Basic search:
 
 ``` ruby
 require 'debian/apt_pkg'
@@ -22,7 +22,7 @@ Debian::AptPkg.init
 Debian::AptPkg::PkgCache.pkg_names("vim")
 ```
 
-[Documentation](https://spk.github.io/ruby-apt-pkg/)
+[Documentation](http://www.rubydoc.info/gems/apt-pkg)
 
 ## BUILD
 
@@ -47,5 +47,7 @@ Copyright (c) 2014-2016 Laurent Arnoud <laurent@spkdev.net>
 ---
 [![Build](https://img.shields.io/travis-ci/spk/ruby-apt-pkg.svg)](https://travis-ci.org/spk/ruby-apt-pkg)
 [![Version](https://img.shields.io/gem/v/apt-pkg.svg)](https://rubygems.org/gems/apt-pkg)
+[![Documentation](https://img.shields.io/badge/doc-rubydoc-blue.svg)](http://www.rubydoc.info/gems/apt-pkg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT "MIT")
+[![Project status](http://img.shields.io/status/experimental.png?color=red)](https://github.com/spk/ruby-apt-pkg)
 [![IRC Network](https://img.shields.io/badge/irc-oftc-blue.svg)](https://webchat.oftc.net/ "#ruby-apt-pkg")
