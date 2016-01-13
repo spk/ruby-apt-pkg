@@ -194,6 +194,7 @@ check_domain_list(VALUE self, VALUE host, VALUE list)
 }
 
 void
+// cppcheck-suppress unusedFunction
 Init_apt_pkg()
 {
   VALUE rb_mDebian = rb_define_module("Debian");
