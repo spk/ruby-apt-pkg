@@ -29,4 +29,4 @@ task :cppcheck do
   end
 end
 
-task default: [:test]
+task default: [:test, :cppcheck]
