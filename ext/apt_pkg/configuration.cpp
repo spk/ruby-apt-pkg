@@ -14,7 +14,7 @@ architectures(VALUE self)
   VALUE result = rb_ary_new();
   std::vector < std::string > arches = APT::Configuration::getArchitectures();
   std::vector < std::string >::const_iterator I;
-  for (I = arches.begin(); I != arches.end(); I++) {
+  for (I = arches.begin(); I != arches.end(); ++I) {
     rb_ary_push(result, rb_str_new2((*I).c_str()));
   }
   return result;
@@ -57,7 +57,7 @@ languages(int argc, VALUE *argv, VALUE self)
   std::vector < std::string > const langs =
     APT::Configuration::getLanguages(all);
   std::vector < std::string >::const_iterator I;
-  for (I = langs.begin(); I != langs.end(); I++) {
+  for (I = langs.begin(); I != langs.end(); ++I) {
     rb_ary_push(result, rb_str_new2((*I).c_str()));
   }
   return result;
@@ -97,7 +97,7 @@ compressors(VALUE self)
   VALUE result = rb_ary_new();
   std::vector < std::string > cmps = APT::Configuration::getCompressionTypes();
   std::vector < std::string >::const_iterator I;
-  for (I = cmps.begin(); I != cmps.end(); I++) {
+  for (I = cmps.begin(); I != cmps.end(); ++I) {
     rb_ary_push(result, rb_str_new2((*I).c_str()));
   }
   return result;
