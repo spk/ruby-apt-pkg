@@ -34,6 +34,32 @@ gen_caches(VALUE self)
 }
 
 /*
+ * call-seq: update() -> bool
+ *
+ * Update the index files used by the cache.
+ * Return `nil` when config, system, cache is not configured.
+ *
+ *   Debian::AptPkg::PkgCache.update # => false
+ *
+ **/
+static VALUE
+update(VALUE self)
+{
+  if (!config_system_initialized()) {
+    return Qnil;
+  }
+  pkgCacheFile CacheFile;
+  // Get the source list
+  if (CacheFile.BuildSourceList() == false) {
+    return Qnil;
+  }
+  pkgAcquireStatus *Stat(NULL);
+  pkgSourceList *List = CacheFile.GetSourceList();
+  int res = ListUpdate(*Stat, *List);
+  return INT2BOOL(res);
+}
+
+/*
  * call-seq: is_multi_arch() -> bool
  *
  * An attribute determining whether the cache supports multi-arch.
@@ -268,6 +294,8 @@ init_apt_pkg_pkgcache()
 
   rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "gen_caches",
                              RUBY_METHOD_FUNC(gen_caches), 0);
+  rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "update",
+                             RUBY_METHOD_FUNC(update), 0);
   rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "is_multi_arch",
                              RUBY_METHOD_FUNC(is_multi_arch), 0);
   rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "pkg_names",

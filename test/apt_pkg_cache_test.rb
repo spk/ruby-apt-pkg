@@ -5,6 +5,12 @@ describe Debian::AptPkg::PkgCache do
     Debian::AptPkg.init
   end
 
+  describe '.update' do
+    it 'can be called' do
+      Debian::AptPkg::PkgCache.update
+    end
+  end
+
   describe '.gen_caches' do
     it 'return boolean' do
       if Process.uid == 0
