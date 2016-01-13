@@ -18,9 +18,11 @@ RDoc::Task.new do |rd|
   rd.title = 'ruby-apt-pkg'
 end
 
-task :lint do
+desc 'cppcheck - Tool for static C/C++ code analysis'
+task :cppcheck do
   cppcheck_opts = '--error-exitcode=1 --quiet --enable=all --inconclusive' \
-    ' --std=posix'
+    ' --std=posix --inline-suppr' \
+    ' --template "[{file}:{line}] {severity} ({id}): {message}"'
   sh("cppcheck #{cppcheck_opts} ext/apt_pkg") do |ok, res|
     ok || puts("lint error (status = #{res.exitstatus})")
     exit(res.exitstatus)
