@@ -55,13 +55,17 @@ describe Debian::AptPkg::Configuration do
       Debian::AptPkg::Configuration.config_find
     end.must_raise ArgumentError
 
-    Debian::AptPkg::Configuration.config_find('Dir::Etc::main')
+    Debian::AptPkg::Configuration
+      .config_find('Dir::Etc::main')
       .must_equal 'apt.conf'
-    Debian::AptPkg::Configuration.config_find('Dir::Etc::netrc')
+    Debian::AptPkg::Configuration
+      .config_find('Dir::Etc::netrc')
       .must_equal 'auth.conf'
-    Debian::AptPkg::Configuration.config_find('Dir::Etc::parts')
+    Debian::AptPkg::Configuration
+      .config_find('Dir::Etc::parts')
       .must_equal 'apt.conf.d'
-    Debian::AptPkg::Configuration.config_find('Spk', 'DebianUser')
+    Debian::AptPkg::Configuration
+      .config_find('Spk', 'DebianUser')
       .must_equal 'DebianUser'
   end
 
@@ -70,9 +74,11 @@ describe Debian::AptPkg::Configuration do
       Debian::AptPkg::Configuration.config_find_file
     end.must_raise ArgumentError
 
-    Debian::AptPkg::Configuration.config_find_file('Dir::Etc::main')
+    Debian::AptPkg::Configuration
+      .config_find_file('Dir::Etc::main')
       .must_equal '/etc/apt/apt.conf'
-    Debian::AptPkg::Configuration.config_find_file('Dir::Etc::netrc')
+    Debian::AptPkg::Configuration
+      .config_find_file('Dir::Etc::netrc')
       .must_equal '/etc/apt/auth.conf'
   end
 end

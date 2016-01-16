@@ -64,11 +64,14 @@ describe Debian::AptPkg do
 
     describe 'NotEquals' do
       it 'should compare Debian version' do
-        Debian::AptPkg.check_dep('1', Debian::AptPkg::NOT_EQUALS, '2')
+        Debian::AptPkg
+          .check_dep('1', Debian::AptPkg::NOT_EQUALS, '2')
           .must_equal true
-        Debian::AptPkg.check_dep('2', Debian::AptPkg::NOT_EQUALS, '1')
+        Debian::AptPkg
+          .check_dep('2', Debian::AptPkg::NOT_EQUALS, '1')
           .must_equal true
-        Debian::AptPkg.check_dep('1', Debian::AptPkg::NOT_EQUALS, '1')
+        Debian::AptPkg
+          .check_dep('1', Debian::AptPkg::NOT_EQUALS, '1')
           .must_equal false
       end
     end
@@ -84,7 +87,8 @@ describe Debian::AptPkg do
 
   describe '.uri_to_filename' do
     it 'should return a filename which can be used to store the file' do
-      Debian::AptPkg.uri_to_filename('http://debian.org/index.html')
+      Debian::AptPkg
+        .uri_to_filename('http://debian.org/index.html')
         .must_equal 'debian.org_index.html'
     end
   end
