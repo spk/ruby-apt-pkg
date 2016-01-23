@@ -1,4 +1,10 @@
 
+0.3.0 / 2016-01-23
+==================
+
+  * Prefer prefix ++/-- operators for non-primitive types
+  * Add Debian::AptPkg::PkgCache.update
+
 0.2.0 / 2016-01-04
 ==================
 
