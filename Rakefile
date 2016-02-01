@@ -4,11 +4,18 @@ require 'rdoc/task'
 
 Rake::ExtensionTask.new('apt_pkg')
 
-Rake::Task[:test].prerequisites << :clean
-Rake::Task[:test].prerequisites << :compile
+namespace :test do
+  Rake::TestTask.new :unit do |t|
+    t.pattern = 'test/**/*_test.rb'
+  end
+  Rake::Task['unit'].prerequisites << :clean
+  Rake::Task['unit'].prerequisites << :compile
 
-Rake::TestTask.new do |t|
-  t.pattern = 'test/**/*_test.rb'
+  Rake::TestTask.new :integration do |t|
+    t.pattern = 'test/**/*_integration.rb'
+  end
+  Rake::Task['integration'].prerequisites << :clean
+  Rake::Task['integration'].prerequisites << :compile
 end
 
 RDoc::Task.new do |rd|
@@ -29,4 +36,4 @@ task :cppcheck do
   end
 end
 
-task default: [:test, :cppcheck]
+task default: ['test:unit', 'test:integration', :cppcheck]
