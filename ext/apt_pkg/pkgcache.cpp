@@ -26,7 +26,7 @@ static VALUE
 gen_caches(VALUE self)
 {
   if (!config_system_initialized()) {
-    return Qnil;
+    rb_raise(rb_eRuntimeError, "System not initialized");
   }
   pkgCacheFile CacheFile;
   int res = CacheFile.BuildCaches(NULL, true);
@@ -46,7 +46,7 @@ static VALUE
 update(VALUE self)
 {
   if (!config_system_initialized()) {
-    return Qnil;
+    rb_raise(rb_eRuntimeError, "System not initialized");
   }
   pkgCacheFile CacheFile;
   // Get the source list
@@ -72,7 +72,7 @@ static VALUE
 is_multi_arch(VALUE self)
 {
   if (!config_system_initialized()) {
-    return Qnil;
+    rb_raise(rb_eRuntimeError, "System not initialized");
   }
   pkgCacheFile CacheFile;
   pkgCache *Cache = CacheFile.GetPkgCache();
@@ -96,7 +96,7 @@ static VALUE
 pkg_names(int argc, VALUE *argv, VALUE self)
 {
   if (!config_system_initialized()) {
-    return Qnil;
+    rb_raise(rb_eRuntimeError, "System not initialized");
   }
   if (argc > 1 || argc == 0) {
     rb_raise(rb_eArgError, "You must give at least one search argument");
@@ -136,7 +136,7 @@ static VALUE
 package_count(VALUE self)
 {
   if (!config_system_initialized()) {
-    return Qnil;
+    rb_raise(rb_eRuntimeError, "System not initialized");
   }
   pkgCacheFile CacheFile;
   pkgCache *Cache = CacheFile.GetPkgCache();
@@ -159,7 +159,7 @@ static VALUE
 version_count(VALUE self)
 {
   if (!config_system_initialized()) {
-    return Qnil;
+    rb_raise(rb_eRuntimeError, "System not initialized");
   }
   pkgCacheFile CacheFile;
   pkgCache *Cache = CacheFile.GetPkgCache();
@@ -182,7 +182,7 @@ static VALUE
 depends_count(VALUE self)
 {
   if (!config_system_initialized()) {
-    return Qnil;
+    rb_raise(rb_eRuntimeError, "System not initialized");
   }
   pkgCacheFile CacheFile;
   pkgCache *Cache = CacheFile.GetPkgCache();
@@ -205,7 +205,7 @@ static VALUE
 package_file_count(VALUE self)
 {
   if (!config_system_initialized()) {
-    return Qnil;
+    rb_raise(rb_eRuntimeError, "System not initialized");
   }
   pkgCacheFile CacheFile;
   pkgCache *Cache = CacheFile.GetPkgCache();
@@ -228,7 +228,7 @@ static VALUE
 ver_file_count(VALUE self)
 {
   if (!config_system_initialized()) {
-    return Qnil;
+    rb_raise(rb_eRuntimeError, "System not initialized");
   }
   pkgCacheFile CacheFile;
   pkgCache *Cache = CacheFile.GetPkgCache();
@@ -251,7 +251,7 @@ static VALUE
 provides_count(VALUE self)
 {
   if (!config_system_initialized()) {
-    return Qnil;
+    rb_raise(rb_eRuntimeError, "System not initialized");
   }
   pkgCacheFile CacheFile;
   pkgCache *Cache = CacheFile.GetPkgCache();
@@ -274,7 +274,7 @@ static VALUE
 group_count(VALUE self)
 {
   if (!config_system_initialized()) {
-    return Qnil;
+    rb_raise(rb_eRuntimeError, "System not initialized");
   }
   pkgCacheFile CacheFile;
   pkgCache *Cache = CacheFile.GetPkgCache();
