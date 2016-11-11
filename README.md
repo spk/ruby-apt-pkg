@@ -34,15 +34,13 @@ Debian::AptPkg::PkgCache.pkg_names("vim")
 ## BUILD
 
 ``` console
-gem install bundler
-bundle install
-bundle exec rake compile
+rake compile
 ```
 
 ## TEST
 
 ``` console
-bundle exec rake test
+rake test
 ```
 
 ## LICENSE
