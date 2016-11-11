@@ -289,31 +289,31 @@ init_apt_pkg_pkgcache()
 {
   VALUE rb_mDebian = rb_define_module("Debian");
   VALUE rb_mDebianAptPkg = rb_define_module_under(rb_mDebian, "AptPkg");
-  VALUE rb_mDebianAptPkgConfiguration = rb_define_module_under(rb_mDebianAptPkg,
+  VALUE rb_mDebianAptPkgCache = rb_define_module_under(rb_mDebianAptPkg,
                                                                "PkgCache");
 
-  rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "gen_caches",
+  rb_define_singleton_method(rb_mDebianAptPkgCache, "gen_caches",
                              RUBY_METHOD_FUNC(gen_caches), 0);
-  rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "update",
+  rb_define_singleton_method(rb_mDebianAptPkgCache, "update",
                              RUBY_METHOD_FUNC(update), 0);
-  rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "is_multi_arch",
+  rb_define_singleton_method(rb_mDebianAptPkgCache, "is_multi_arch",
                              RUBY_METHOD_FUNC(is_multi_arch), 0);
-  rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "pkg_names",
+  rb_define_singleton_method(rb_mDebianAptPkgCache, "pkg_names",
                              RUBY_METHOD_FUNC(pkg_names), -1);
 
-  rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "package_count",
+  rb_define_singleton_method(rb_mDebianAptPkgCache, "package_count",
                              RUBY_METHOD_FUNC(package_count), 0);
-  rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "version_count",
+  rb_define_singleton_method(rb_mDebianAptPkgCache, "version_count",
                              RUBY_METHOD_FUNC(version_count), 0);
-  rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "depends_count",
+  rb_define_singleton_method(rb_mDebianAptPkgCache, "depends_count",
                              RUBY_METHOD_FUNC(depends_count), 0);
-  rb_define_singleton_method(rb_mDebianAptPkgConfiguration,
+  rb_define_singleton_method(rb_mDebianAptPkgCache,
                              "package_file_count",
                              RUBY_METHOD_FUNC(package_file_count), 0);
-  rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "ver_file_count",
+  rb_define_singleton_method(rb_mDebianAptPkgCache, "ver_file_count",
                              RUBY_METHOD_FUNC(ver_file_count), 0);
-  rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "provides_count",
+  rb_define_singleton_method(rb_mDebianAptPkgCache, "provides_count",
                              RUBY_METHOD_FUNC(provides_count), 0);
-  rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "group_count",
+  rb_define_singleton_method(rb_mDebianAptPkgCache, "group_count",
                              RUBY_METHOD_FUNC(group_count), 0);
 }
