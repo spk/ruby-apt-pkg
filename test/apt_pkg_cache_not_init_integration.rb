@@ -6,7 +6,7 @@ describe Debian::AptPkg::PkgCache do
       it 'can be called' do
         lambda do
           Debian::AptPkg::PkgCache.update
-        end.must_raise RuntimeError
+        end.must_raise Debian::AptPkg::InitError
       end
     end
 
@@ -15,7 +15,7 @@ describe Debian::AptPkg::PkgCache do
         it 'can be called' do
           lambda do
             Debian::AptPkg::PkgCache.public_send("#{m}_count")
-          end.must_raise RuntimeError
+          end.must_raise Debian::AptPkg::InitError
         end
       end
     end
