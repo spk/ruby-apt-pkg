@@ -19,7 +19,8 @@ config_system_initialized()
  * call-seq: gen_caches() -> bool
  *
  * Call the main cache generator.
- * Return `nil` when config, system, cache is not configured.
+ * Raise `Debian::AptPkg::InitError` when config, system, cache is not
+ * configured.
  *
  *   Debian::AptPkg::PkgCache.gen_caches # => false
  *
@@ -39,7 +40,8 @@ gen_caches(VALUE self)
  * call-seq: update() -> bool
  *
  * Update the index files used by the cache.
- * Return `nil` when config, system, cache is not configured.
+ * Raise `Debian::AptPkg::InitError` when config, system, cache is not
+ * configured.
  *
  *   Debian::AptPkg::PkgCache.update # => false
  *
@@ -65,7 +67,8 @@ update(VALUE self)
  * call-seq: is_multi_arch() -> bool
  *
  * An attribute determining whether the cache supports multi-arch.
- * Return `nil` when config, system, cache is not configured.
+ * Raise `Debian::AptPkg::InitError` when config, system, cache is not
+ * configured.
  *
  *   Debian::AptPkg::PkgCache.is_multi_arch # => false
  *
@@ -89,7 +92,8 @@ is_multi_arch(VALUE self)
  * call-seq: pkg_names() -> array, nil
  *
  * List the names of all packages in the system.
- * Return `nil` when config, system, cache is not configured.
+ * Raise `Debian::AptPkg::InitError` when config, system, cache is not
+ * configured.
  *
  *   Debian::AptPkg::PkgCache.pkg_names('gcolor2') # => ["gcolor2"]
  *
@@ -129,7 +133,8 @@ pkg_names(int argc, VALUE *argv, VALUE self)
  * call-seq: package_count() -> int, nil
  *
  * The total number of packages available in the cache.
- * Return `nil` when config, system, cache is not configured.
+ * Raise `Debian::AptPkg::InitError` when config, system, cache is not
+ * configured.
  *
  *   Debian::AptPkg::PkgCache.package_count # => 69511
  *
@@ -152,7 +157,8 @@ package_count(VALUE self)
  * call-seq: version_count() -> int, nil
  *
  * The total number of package versions available in the cache.
- * Return `nil` when config, system, cache is not configured.
+ * Raise `Debian::AptPkg::InitError` when config, system, cache is not
+ * configured.
  *
  *   Debian::AptPkg::PkgCache.version_count # => 84630
  *
@@ -175,7 +181,8 @@ version_count(VALUE self)
  * call-seq: depends_count() -> int, nil
  *
  * The total number of dependencies stored in the cache.
- * Return `nil` when config, system, cache is not configured.
+ * Raise `Debian::AptPkg::InitError` when config, system, cache is not
+ * configured.
  *
  *   Debian::AptPkg::PkgCache.depends_count # => 551983
  *
@@ -198,7 +205,8 @@ depends_count(VALUE self)
  * call-seq: package_file_count() -> int, nil
  *
  * The total number of packages files available.
- * Return `nil` when config, system, cache is not configured.
+ * Raise `Debian::AptPkg::InitError` when config, system, cache is not
+ * configured.
  *
  *   Debian::AptPkg::PkgCache.package_file_count # => 17
  *
@@ -221,7 +229,8 @@ package_file_count(VALUE self)
  * call-seq: ver_file_count() -> int, nil
  *
  * The total number of version and package file relations stored in the cache.
- * Return `nil` when config, system, cache is not configured.
+ * Raise `Debian::AptPkg::InitError` when config, system, cache is not
+ * configured.
  *
  *   Debian::AptPkg::PkgCache.ver_file_count # => 11274
  *
@@ -244,7 +253,8 @@ ver_file_count(VALUE self)
  * call-seq: provides_count() -> int, nil
  *
  * The number of provided packages.
- * Return `nil` when config, system, cache is not configured.
+ * Raise `Debian::AptPkg::InitError` when config, system, cache is not
+ * configured.
  *
  *   Debian::AptPkg::PkgCache.provides_count # => 69511
  *
@@ -267,7 +277,8 @@ provides_count(VALUE self)
  * call-seq: group_count() -> int, nil
  *
  * The number of groups in the cache.
- * Return `nil` when config, system, cache is not configured.
+ * Raise `Debian::AptPkg::InitError` when config, system, cache is not
+ * configured.
  *
  *   Debian::AptPkg::PkgCache.group_count # => 16730
  *
