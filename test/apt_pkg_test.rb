@@ -15,7 +15,7 @@ describe Debian::AptPkg do
 
   describe '.init' do
     it 'returns a bool' do
-      _(Debian::AptPkg.init).must_be true
+      _(Debian::AptPkg.init).must_equal true
     end
   end
 
