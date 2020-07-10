@@ -13,6 +13,12 @@ describe Debian::AptPkg do
     refute_nil Debian::AptPkg::LIBAPT_PKG_VERSION
   end
 
+  describe '.init' do
+    it 'returns a bool' do
+      _(Debian::AptPkg.init).must_be true
+    end
+  end
+
   describe '.cmp_version' do
     it 'should compare version' do
       _(Debian::AptPkg.cmp_version('1.1', '1.0')).must_be :>, 0

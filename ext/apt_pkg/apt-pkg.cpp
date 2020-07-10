@@ -3,19 +3,18 @@
 #include "pkgcache.h"
 
 /*
- * call-seq: init() -> nil
+ * call-seq: init() -> bool
  *
  * Shorthand for doing init_config() and init_system().
  *
- *   Debian::AptPkg.init # => nil
+ *   Debian::AptPkg.init # => true
  *
  **/
 static VALUE
 init(VALUE self)
 {
-  pkgInitConfig(*_config);
-  pkgInitSystem(*_config, _system);
-  return Qnil;
+  int res = pkgInitConfig(*_config) && pkgInitSystem(*_config, _system);
+  return INT2BOOL(res);
 }
 
 /*
