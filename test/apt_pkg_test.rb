@@ -20,7 +20,7 @@ describe Debian::AptPkg do
   end
 
   describe '.cmp_version' do
-    it 'should compare version' do
+    it 'compare version' do
       _(Debian::AptPkg.cmp_version('1.1', '1.0')).must_be :>, 0
       _(Debian::AptPkg.cmp_version('1.0', '1.0')).must_be :==, 0
       _(Debian::AptPkg.cmp_version('1.0', '1.1')).must_be :<, 0
@@ -29,7 +29,7 @@ describe Debian::AptPkg do
 
   describe '.check_dep' do
     describe 'LessEq' do
-      it 'should compare Debian version' do
+      it 'compare Debian version' do
         _(Debian::AptPkg.check_dep('1', '<=', '2')).must_equal true
         _(Debian::AptPkg.check_dep('2', '<=', '1')).must_equal false
         _(Debian::AptPkg.check_dep('1', '<=', '1')).must_equal true
@@ -37,7 +37,7 @@ describe Debian::AptPkg do
     end
 
     describe 'GreaterEq' do
-      it 'should compare Debian version' do
+      it 'compare Debian version' do
         _(Debian::AptPkg.check_dep('1', '>=', '2')).must_equal false
         _(Debian::AptPkg.check_dep('2', '>=', '1')).must_equal true
         _(Debian::AptPkg.check_dep('1', '>=', '1')).must_equal true
@@ -45,7 +45,7 @@ describe Debian::AptPkg do
     end
 
     describe 'Less' do
-      it 'should compare Debian version' do
+      it 'compare Debian version' do
         _(Debian::AptPkg.check_dep('1', '<', '2')).must_equal true
         _(Debian::AptPkg.check_dep('2', '<', '1')).must_equal false
         _(Debian::AptPkg.check_dep('1', '<', '1')).must_equal false
@@ -53,7 +53,7 @@ describe Debian::AptPkg do
     end
 
     describe 'Greater' do
-      it 'should compare Debian version' do
+      it 'compare Debian version' do
         _(Debian::AptPkg.check_dep('1', '>', '2')).must_equal false
         _(Debian::AptPkg.check_dep('2', '>', '1')).must_equal true
         _(Debian::AptPkg.check_dep('1', '>', '1')).must_equal false
@@ -61,7 +61,7 @@ describe Debian::AptPkg do
     end
 
     describe 'Equals' do
-      it 'should compare Debian version' do
+      it 'compare Debian version' do
         _(Debian::AptPkg.check_dep('1', '=', '2')).must_equal false
         _(Debian::AptPkg.check_dep('2', '=', '1')).must_equal false
         _(Debian::AptPkg.check_dep('1', '=', '1')).must_equal true
@@ -69,7 +69,7 @@ describe Debian::AptPkg do
     end
 
     describe 'NotEquals' do
-      it 'should compare Debian version' do
+      it 'compare Debian version' do
         _(Debian::AptPkg.check_dep('1', Debian::AptPkg::NOT_EQUALS, '2'))
           .must_equal true
         _(Debian::AptPkg.check_dep('2', Debian::AptPkg::NOT_EQUALS, '1'))
@@ -80,7 +80,7 @@ describe Debian::AptPkg do
     end
 
     describe 'Errors' do
-      it 'should raise argument error with bad comparison' do
+      it 'raise argument error with bad comparison' do
         _(lambda do
           Debian::AptPkg.check_dep('1', 'bad', '2')
         end).must_raise ArgumentError
@@ -89,7 +89,7 @@ describe Debian::AptPkg do
   end
 
   describe '.uri_to_filename' do
-    it 'should return a filename which can be used to store the file' do
+    it 'return a filename which can be used to store the file' do
       _(Debian::AptPkg.uri_to_filename('http://debian.org/index.html'))
         .must_equal 'debian.org_index.html'
     end
