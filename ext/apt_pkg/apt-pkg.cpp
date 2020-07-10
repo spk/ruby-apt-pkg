@@ -199,8 +199,6 @@ Init_apt_pkg()
 {
   VALUE rb_mDebian = rb_define_module("Debian");
   VALUE rb_mDebianAptPkg = rb_define_module_under(rb_mDebian, "AptPkg");
-  VALUE rb_mDebianAptPkgConfiguration =
-    rb_define_module_under(rb_mDebianAptPkg, "Configuration");
 
   rb_define_singleton_method(rb_mDebianAptPkg, "init",
                              RUBY_METHOD_FUNC(init), 0);
