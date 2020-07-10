@@ -3,6 +3,7 @@
 #include <apt-pkg/debversion.h>
 #include <apt-pkg/pkgcache.h>
 #include <apt-pkg/strutl.h>
+#include <apt-pkg/pkgsystem.h>
 #include <apt-pkg/init.h>
 
 /* from '<ruby/dl.h>' */
