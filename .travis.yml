@@ -4,7 +4,7 @@ sudo: true
 language: ruby
 cache: bundler
 before_install:
-  - sudo apt install -y libapt-pkg-dev cppcheck
+  - sudo apt install -y libapt-pkg-dev
   - gem install --remote bundler
 rvm:
   - 2.3
