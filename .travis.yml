@@ -1,16 +1,17 @@
-sudo: required
-dist: trusty
-
+---
+dist: bionic
+sudo: true
 language: ruby
-bundler_args: --jobs=3 --retry=3
 cache: bundler
 before_install:
-  - sudo apt update
   - sudo apt install -y libapt-pkg-dev cppcheck
   - gem install --remote bundler
 rvm:
-  - 2.1
-  - 2.2
+  - 2.3
+  - 2.4
+  - 2.5
+  - 2.6
+  - 2.7
   - ruby-head
 matrix:
   allow_failures:
