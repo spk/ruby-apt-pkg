@@ -1,4 +1,4 @@
-# Debian::AptPkg version file
+# Debian::AptPkg const VERSION file
 module Debian
   # AptPkg base module
   module AptPkg

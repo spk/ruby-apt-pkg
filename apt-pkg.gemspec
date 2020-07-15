@@ -1,4 +1,4 @@
-version_file = 'lib/debian/apt_pkg/version'
+version_file = 'lib/debian/apt_pkg/gem_version'
 require File.expand_path("../#{version_file}", __FILE__)
 
 Gem::Specification.new do |s|
