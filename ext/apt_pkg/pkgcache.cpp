@@ -1,6 +1,6 @@
 #include "pkgcache.h"
 
-static VALUE e_mDebianAptPkgInitError;
+static VALUE e_mDebianAptPkgInitError, rb_cPackage, rb_cVersion;
 
 /*
  * private
@@ -86,6 +86,60 @@ is_multi_arch(VALUE self)
   }
   int res = Cache->MultiArchCache();
   return INT2BOOL(res);
+}
+
+/*
+ * call-seq: packages() -> array, nil
+ *
+ * A list of Debian::AptPkg::Package objects stored in the cache
+ * Raise `Debian::AptPkg::InitError` when config, system, cache is not
+ * configured.
+ *
+ *   Debian::AptPkg::PkgCache.packages
+ *
+ **/
+static VALUE
+packages(int argc, VALUE *argv, VALUE self)
+{
+  if (!config_system_initialized()) {
+    rb_raise(e_mDebianAptPkgInitError, "System not initialized");
+  }
+  VALUE result = rb_ary_new();
+  pkgCacheFile CacheFile;
+  if (CacheFile.GetPkgCache() == 0) {
+    return Qnil;
+  }
+  for (pkgCache::PkgIterator Pkg = CacheFile.GetPkgCache()->PkgBegin(); not Pkg.end(); ++Pkg) {
+    VALUE current_version;
+    if (Pkg->CurrentVer == 0) {
+      current_version = Qnil;
+    } else {
+      current_version = rb_struct_new(rb_cVersion,
+          rb_str_new2(Pkg.CurrentVer().ParentPkg().Name()),
+          rb_str_new2(Pkg.CurrentVer().VerStr()),
+          rb_str_new2(Pkg.CurrentVer().Section()),
+          rb_str_new2(Pkg.CurrentVer().Arch()),
+          INT2FIX(Pkg.CurrentVer()->Size),
+          INT2FIX(Pkg.CurrentVer()->InstalledSize),
+          INT2FIX(Pkg.CurrentVer()->Hash),
+          INT2FIX(Pkg.CurrentVer()->ID),
+          INT2FIX(Pkg.CurrentVer()->Priority)
+          );
+    }
+    VALUE rb_cPackage_args[7];
+    rb_cPackage_args[0] = INT2FIX(Pkg->ID);
+    rb_cPackage_args[1] = rb_str_new2(Pkg.Name());
+    rb_cPackage_args[2] = rb_str_new2(Pkg.FullName().c_str());
+    rb_cPackage_args[3] = rb_str_new2(Pkg.Arch());
+    rb_cPackage_args[4] = INT2BOOL((Pkg->Flags & pkgCache::Flag::Essential) != 0);
+    rb_cPackage_args[5] = INT2BOOL((Pkg->Flags & pkgCache::Flag::Important) != 0);
+    rb_cPackage_args[6] = current_version;
+    rb_ary_push(result, rb_class_new_instance(7,
+          rb_cPackage_args,
+          rb_cPackage
+          ));
+  }
+  return result;
 }
 
 /*
@@ -307,6 +361,18 @@ init_apt_pkg_pkgcache()
   e_mDebianAptPkgInitError = rb_define_class_under(rb_mDebianAptPkg,
                                                     "InitError",
                                                     rb_eRuntimeError);
+  rb_cPackage = rb_const_get_at(rb_mDebianAptPkg, rb_intern("Package"));
+  rb_cVersion = rb_struct_define_under(rb_mDebianAptPkg, "Version",
+      "parent_package_name",
+      "version_string",
+      "section",
+      "arch",
+      "size",
+      "installed_size",
+      "hash",
+      "id",
+      "priority",
+      NULL);
 
   rb_define_singleton_method(rb_mDebianAptPkgCache, "gen_caches",
                              RUBY_METHOD_FUNC(gen_caches), 0);
@@ -314,6 +380,8 @@ init_apt_pkg_pkgcache()
                              RUBY_METHOD_FUNC(update), 0);
   rb_define_singleton_method(rb_mDebianAptPkgCache, "is_multi_arch",
                              RUBY_METHOD_FUNC(is_multi_arch), 0);
+  rb_define_singleton_method(rb_mDebianAptPkgCache, "packages",
+                             RUBY_METHOD_FUNC(packages), 0);
   rb_define_singleton_method(rb_mDebianAptPkgCache, "pkg_names",
                              RUBY_METHOD_FUNC(pkg_names), -1);
 

@@ -20,7 +20,7 @@ end
 
 RDoc::Task.new do |rd|
   rd.main = 'README.md'
-  rd.rdoc_files.include('README.md', 'ext/**/*.cpp')
+  rd.rdoc_files.include('README.md', 'ext/**/*.cpp', 'lib/**/*.rb')
   rd.options << '--all'
   rd.title = 'ruby-apt-pkg'
 end

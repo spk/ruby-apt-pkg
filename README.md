@@ -7,7 +7,7 @@ Currently install, remove packages commands are **not** implemented.
 
 ## INSTALL
 
-``` console
+```
 apt install build-essential ruby-dev libapt-pkg-dev (>= 1.0)
 gem install apt-pkg
 ```
@@ -27,6 +27,12 @@ Debian::AptPkg::PkgCache.update
 
 # Search package by names
 Debian::AptPkg::PkgCache.pkg_names("vim")
+
+# List packages stored in the cache
+Debian::AptPkg::PkgCache.packages
+
+# List installed packages
+Debian::AptPkg::PkgCache.packages.select {|pkg| pkg.is_installed }
 ```
 
 [Documentation](http://www.rubydoc.info/gems/apt-pkg)
