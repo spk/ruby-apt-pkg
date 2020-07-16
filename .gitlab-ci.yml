@@ -1,5 +1,7 @@
 ---
 before_script:
+  - apt-get update -qy
+  - apt-get install -y libapt-pkg-dev
   - ruby -v
   - which ruby
   - gem install bundler --no-document
