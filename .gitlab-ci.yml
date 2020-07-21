@@ -1,12 +1,34 @@
 ---
-before_script:
-  - apt-get update -qy
-  - apt-get install -y libapt-pkg-dev
-  - ruby -v
-  - which ruby
-  - gem install bundler --no-document
-  - bundle install --jobs $(nproc)  "${FLAGS[@]}"
+default:
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y libapt-pkg-dev
+    - ruby -v
+    - which ruby
+    - gem install bundler --no-document
+    - bundle install --jobs $(nproc)  "${FLAGS[@]}"
 
-test:
+test:2.3:
+  image: 'ruby:2.3'
+  script:
+    - bundle exec rake
+
+test:2.4:
+  image: 'ruby:2.4'
+  script:
+    - bundle exec rake
+
+test:2.5:
+  image: 'ruby:2.5'
+  script:
+    - bundle exec rake
+
+test:2.6:
+  image: 'ruby:2.6'
+  script:
+    - bundle exec rake
+
+test:2.7:
+  image: 'ruby:2.7'
   script:
     - bundle exec rake
