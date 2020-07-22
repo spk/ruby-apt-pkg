@@ -145,6 +145,7 @@ packages(int argc, VALUE *argv, VALUE self)
 /*
  * call-seq: pkg_names() -> array, nil
  *
+ * Deprecated and will removed in 0.6.0
  * List the names of all packages in the system.
  * Raise `Debian::AptPkg::InitError` when config, system, cache is not
  * configured.
@@ -155,6 +156,8 @@ packages(int argc, VALUE *argv, VALUE self)
 static VALUE
 pkg_names(int argc, VALUE *argv, VALUE self)
 {
+  rb_warn("Debian::AptPkg::PkgCache.pkg_names is deprecated; " \
+          "use Debian::AptPkg::PkgCache.packages instead");
   if (!config_system_initialized()) {
     rb_raise(e_mDebianAptPkgInitError, "System not initialized");
   }

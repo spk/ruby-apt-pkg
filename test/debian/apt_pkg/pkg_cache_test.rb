@@ -54,31 +54,50 @@ describe Debian::AptPkg::PkgCache do
   end
 
   describe '.pkg_names' do
+    it 'is deprecated' do
+      out, err = capture_io do
+        Debian::AptPkg::PkgCache.pkg_names('libapt-pkg-dev')
+      end
+      _(out).must_equal ''
+      regexp = /warning:\sDebian::AptPkg::PkgCache\.pkg_names\sis\sdeprecated;\s
+      use\sDebian::AptPkg::PkgCache\.packages\sinstead/x
+      _(err).must_match(regexp)
+    end
+
     it 'no argument' do
       _(lambda do
-        Debian::AptPkg::PkgCache.pkg_names
+        capture_io do
+          Debian::AptPkg::PkgCache.pkg_names
+        end
       end).must_raise ArgumentError
     end
+
     it 'nil argument' do
       _(lambda do
-        Debian::AptPkg::PkgCache.pkg_names(nil)
+        capture_io do
+          Debian::AptPkg::PkgCache.pkg_names(nil)
+        end
       end).must_raise ArgumentError
     end
 
     it 'blank argument' do
       _(lambda do
-        Debian::AptPkg::PkgCache.pkg_names('')
+        capture_io do
+          Debian::AptPkg::PkgCache.pkg_names('')
+        end
       end).must_raise ArgumentError
     end
 
     it 'be filtered' do
-      search = Debian::AptPkg::PkgCache.pkg_names('vim')
-      # CI specific cache can not be present
-      unless search.nil? || search.empty?
-        _(search).must_include 'vim'
-        _(search).must_include 'vim-nox'
-        _(search).must_include 'vim-gtk'
-        _(search).wont_include 'emacs'
+      capture_io do
+        search = Debian::AptPkg::PkgCache.pkg_names('vim')
+        # CI specific cache can not be present
+        unless search.nil? || search.empty?
+          _(search).must_include 'vim'
+          _(search).must_include 'vim-nox'
+          _(search).must_include 'vim-gtk'
+          _(search).wont_include 'emacs'
+        end
       end
     end
   end
