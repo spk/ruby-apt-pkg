@@ -25,14 +25,11 @@ Debian::AptPkg.init
 # Update the index files used by the cache
 Debian::AptPkg::PkgCache.update
 
-# Search package by names
-Debian::AptPkg::PkgCache.pkg_names("vim")
-
 # List packages stored in the cache
 Debian::AptPkg::PkgCache.packages
 
 # List installed packages
-Debian::AptPkg::PkgCache.packages.select {|pkg| pkg.is_installed }
+Debian::AptPkg::PkgCache.packages.select { |pkg| pkg.is_installed }
 ```
 
 [Documentation](http://www.rubydoc.info/gems/apt-pkg)
