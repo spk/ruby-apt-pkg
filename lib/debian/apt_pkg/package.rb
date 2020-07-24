@@ -11,8 +11,6 @@ module Debian
 
       # Initialize the Package class
       #
-      #   new(42, "ed", "ed:amd64", "amd64", false, false, nil)
-      #
       # +id+:: [Integer] The numeric ID of the package
       #
       # +name+:: [String] The name of the package
@@ -33,6 +31,9 @@ module Debian
       #                                        currently installed or nil
       #
       # Returns a Package instance
+      #
+      #   new(42, "ed", "ed:amd64", "amd64", false, false, nil) # => Package
+      #
       def initialize(id, name, full_name, arch, essential, important,
                      current_version)
         @id = id
@@ -44,6 +45,8 @@ module Debian
         @current_version = current_version
       end
 
+      # call-seq: is_installed -> bool
+      #
       # Return +true+ if the package is installed
       #
       #   Debian::AptPkg::Package.new(id, pkg_name, full_name, arch,

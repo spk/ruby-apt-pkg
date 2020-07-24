@@ -2,6 +2,14 @@
 stages:
   - lint
   - test
+  - doc
+
+cache:
+  paths:
+    - vendor/
+
+before_script:
+  - bundle config set path 'vendor'
 
 .tests:
   before_script:
@@ -10,7 +18,7 @@ stages:
     - ruby -v
     - which ruby
     - gem install bundler --no-document
-    - bundle install --jobs $(nproc)  "${FLAGS[@]}"
+    - bundle install --jobs "$(nproc)" "${FLAGS[@]}"
   script: rake test
   stage: test
 
@@ -45,14 +53,26 @@ test:2.7:
     - bundle exec rake
 
 lint:
+  image: 'ruby:2.7-slim'
   before_script:
     - apt-get update -qy
     - apt-get install -y libapt-pkg-dev cppcheck
     - ruby -v
     - which ruby
     - gem install bundler --no-document
-    - bundle install --jobs $(nproc)  "${FLAGS[@]}"
-  image: 'ruby:2.7-slim'
+    - bundle install --jobs "$(nproc)" "${FLAGS[@]}"
   script:
     - bundle exec rake cppcheck
   stage: lint
+
+pages:
+  image: 'ruby:2.7-slim'
+  before_script:
+    - gem install bundler --no-document
+    - bundle install --jobs "$(nproc)" "${FLAGS[@]}"
+  script:
+    - bundle exec rake rdoc
+  artifacts:
+    paths:
+      - public
+  stage: doc

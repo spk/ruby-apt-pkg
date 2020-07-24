@@ -1,5 +1,6 @@
 tmp/
 html/
+public/
 *.gem
 Gemfile.lock
 .gdb_history
