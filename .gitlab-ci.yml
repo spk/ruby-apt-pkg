@@ -65,6 +65,19 @@ lint:
     - bundle exec rake cppcheck
   stage: lint
 
+audit:
+  image: 'ruby:2.7-slim'
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y git
+    - gem install bundler bundler-audit --no-document
+    - bundle install --jobs "$(nproc)" "${FLAGS[@]}"
+  allow_failure: true
+  script:
+    - bundle-audit update
+    - bundle-audit check
+  stage: lint
+
 pages:
   image: 'ruby:2.7-slim'
   before_script:
