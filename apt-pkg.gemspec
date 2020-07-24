@@ -8,9 +8,9 @@ Gem::Specification.new do |s|
   s.authors = ['Laurent Arnoud']
   s.email = 'laurent@spkdev.net'
 
-  s.description = 'Ruby interface to apt-pkg'
-  s.summary = 'Ruby interface to libapt-pkg'
-  s.homepage = 'http://github.com/spk/ruby-apt-pkg'
+  s.description = 'Ruby interface to Debian apt-pkg'
+  s.summary = 'Ruby interface to Debian libapt-pkg'
+  s.homepage = 'https://github.com/spk/ruby-apt-pkg'
   s.license = 'MIT'
 
   s.extensions = ['ext/apt_pkg/extconf.rb']
