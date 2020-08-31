@@ -53,7 +53,7 @@ The MIT License
 Copyright (c) 2014-2020 Laurent Arnoud <laurent@spkdev.net>
 
 ---
-[![Build](https://img.shields.io/travis/spk/ruby-apt-pkg.svg)](https://travis-ci.org/spk/ruby-apt-pkg)
+[![Build](https://img.shields.io/gitlab/pipeline/spkdev/ruby-apt-pkg/master)](https://gitlab.com/spkdev/ruby-apt-pkg/-/commits/master)
 [![Version](https://img.shields.io/gem/v/apt-pkg.svg)](https://rubygems.org/gems/apt-pkg)
 [![Documentation](https://img.shields.io/badge/doc-rubydoc-blue.svg)](http://www.rubydoc.info/gems/apt-pkg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT "MIT")

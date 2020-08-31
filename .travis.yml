@@ -7,7 +7,6 @@ before_install:
   - sudo apt install -y libapt-pkg-dev
   - gem install --remote bundler
 rvm:
-  - 2.3
   - 2.4
   - 2.5
   - 2.6
