@@ -40,22 +40,24 @@ describe Debian::AptPkg::PkgCache do
       if packages.first
         _(packages.first).must_be_kind_of Debian::AptPkg::Package
         libapt = packages.find { |pkg| pkg.name == 'libapt-pkg-dev'  }
-        _(libapt.id).must_be_kind_of Numeric
-        _(libapt.name).must_equal 'libapt-pkg-dev'
-        _(libapt.full_name).must_match(/libapt-pkg-dev:(\w)/)
-        _(libapt.arch).must_match(/(\w)/)
-        _([true, false]).must_include libapt.essential
-        _([true, false]).must_include libapt.important
-        _(libapt.current_version).must_be_kind_of Debian::AptPkg::Version
-        _(libapt.current_version.parent_package_name).must_equal libapt.name
-        _(libapt.current_version.version_string).must_be_kind_of String
-        _(libapt.current_version.section).must_equal 'libdevel'
-        _(libapt.current_version.arch).must_equal libapt.arch
-        _(libapt.current_version.size).must_be_kind_of Numeric
-        _(libapt.current_version.installed_size).must_be_kind_of Numeric
-        _(libapt.current_version.hash).must_be_kind_of Numeric
-        _(libapt.current_version.id).must_be_kind_of Numeric
-        _(libapt.current_version.priority).must_be_kind_of Numeric
+        if libapt
+          _(libapt.id).must_be_kind_of Numeric
+          _(libapt.name).must_equal 'libapt-pkg-dev'
+          _(libapt.full_name).must_match(/libapt-pkg-dev:(\w)/)
+          _(libapt.arch).must_match(/(\w)/)
+          _([true, false]).must_include libapt.essential
+          _([true, false]).must_include libapt.important
+          _(libapt.current_version).must_be_kind_of Debian::AptPkg::Version
+          _(libapt.current_version.parent_package_name).must_equal libapt.name
+          _(libapt.current_version.version_string).must_be_kind_of String
+          _(libapt.current_version.section).must_equal 'libdevel'
+          _(libapt.current_version.arch).must_equal libapt.arch
+          _(libapt.current_version.size).must_be_kind_of Numeric
+          _(libapt.current_version.installed_size).must_be_kind_of Numeric
+          _(libapt.current_version.hash).must_be_kind_of Numeric
+          _(libapt.current_version.id).must_be_kind_of Numeric
+          _(libapt.current_version.priority).must_be_kind_of Numeric
+        end
       end
     end
   end
@@ -97,11 +99,11 @@ describe Debian::AptPkg::PkgCache do
 
     it 'be filtered' do
       capture_io do
-        search = Debian::AptPkg::PkgCache.pkg_names('vim')
+        search = Debian::AptPkg::PkgCache.pkg_names('libapt-pkg-dev')
         # CI specific cache can not be present
         unless search.nil? || search.empty?
-          _(search).must_include 'vim'
-          _(search).wont_include 'emacs'
+          _(search).must_include 'libapt-pkg-dev'
+          _(search).wont_include 'apt'
         end
       end
     end

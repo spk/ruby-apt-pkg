@@ -116,13 +116,19 @@ packages(VALUE self)
   }
   for (pkgCache::PkgIterator Pkg = Cache->PkgBegin(); not Pkg.end(); ++Pkg) {
     VALUE current_version;
+    VALUE current_version_section;
     if (Pkg->CurrentVer == 0) {
       current_version = Qnil;
     } else {
+      if (Pkg.CurrentVer().Section() != NULL) {
+        current_version_section = rb_str_new2(Pkg.CurrentVer().Section());
+      } else {
+        current_version_section = Qnil;
+      }
       current_version = rb_struct_new(rb_cVersion,
           rb_str_new2(Pkg.CurrentVer().ParentPkg().Name()),
           rb_str_new2(Pkg.CurrentVer().VerStr()),
-          rb_str_new2(Pkg.CurrentVer().Section()),
+          current_version_section,
           rb_str_new2(Pkg.CurrentVer().Arch()),
           INT2FIX(Pkg.CurrentVer()->Size),
           INT2FIX(Pkg.CurrentVer()->InstalledSize),
