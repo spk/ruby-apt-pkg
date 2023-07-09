@@ -21,6 +21,8 @@ jobs:
         with:
           bundler-cache: true
           ruby-version: ${{ matrix.ruby }}
+      - name: Install libapt-pkg-dev
+        run: sudo apt-get install libapt-pkg-dev
       - name: Install dependencies
         run: bundle install -j 3
       - name: Run tests
