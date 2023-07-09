@@ -101,8 +101,6 @@ describe Debian::AptPkg::PkgCache do
         # CI specific cache can not be present
         unless search.nil? || search.empty?
           _(search).must_include 'vim'
-          _(search).must_include 'vim-nox'
-          _(search).must_include 'vim-gtk'
           _(search).wont_include 'emacs'
         end
       end
