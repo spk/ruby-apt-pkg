@@ -26,30 +26,37 @@ describe Debian::AptPkg::PkgCache do
     it 'can be called' do
       Debian::AptPkg::PkgCache.is_multi_arch
     end
+
+    it 'returns a boolean' do
+      _([true, false]).must_include Debian::AptPkg::PkgCache.is_multi_arch
+    end
   end
 
   describe '.packages' do
     it 'returns an array of Package' do
       packages = Debian::AptPkg::PkgCache.packages
       _(packages).must_be_kind_of Array
-      _(packages.first).must_be_kind_of Debian::AptPkg::Package
-      libapt = packages.find { |pkg| pkg.name == 'libapt-pkg-dev'  }
-      _(libapt.id).must_be_kind_of Numeric
-      _(libapt.name).must_equal 'libapt-pkg-dev'
-      _(libapt.full_name).must_match(/libapt-pkg-dev:(\w)/)
-      _(libapt.arch).must_match(/(\w)/)
-      _([true, false]).must_include libapt.essential
-      _([true, false]).must_include libapt.important
-      _(libapt.current_version).must_be_kind_of Debian::AptPkg::Version
-      _(libapt.current_version.parent_package_name).must_equal libapt.name
-      _(libapt.current_version.version_string).must_be_kind_of String
-      _(libapt.current_version.section).must_equal 'libdevel'
-      _(libapt.current_version.arch).must_equal libapt.arch
-      _(libapt.current_version.size).must_be_kind_of Numeric
-      _(libapt.current_version.installed_size).must_be_kind_of Numeric
-      _(libapt.current_version.hash).must_be_kind_of Numeric
-      _(libapt.current_version.id).must_be_kind_of Numeric
-      _(libapt.current_version.priority).must_be_kind_of Numeric
+      # apt update is not possible on the system or has not been performed
+      if packages.first
+        _(packages.first).must_be_kind_of Debian::AptPkg::Package
+        libapt = packages.find { |pkg| pkg.name == 'libapt-pkg-dev'  }
+        _(libapt.id).must_be_kind_of Numeric
+        _(libapt.name).must_equal 'libapt-pkg-dev'
+        _(libapt.full_name).must_match(/libapt-pkg-dev:(\w)/)
+        _(libapt.arch).must_match(/(\w)/)
+        _([true, false]).must_include libapt.essential
+        _([true, false]).must_include libapt.important
+        _(libapt.current_version).must_be_kind_of Debian::AptPkg::Version
+        _(libapt.current_version.parent_package_name).must_equal libapt.name
+        _(libapt.current_version.version_string).must_be_kind_of String
+        _(libapt.current_version.section).must_equal 'libdevel'
+        _(libapt.current_version.arch).must_equal libapt.arch
+        _(libapt.current_version.size).must_be_kind_of Numeric
+        _(libapt.current_version.installed_size).must_be_kind_of Numeric
+        _(libapt.current_version.hash).must_be_kind_of Numeric
+        _(libapt.current_version.id).must_be_kind_of Numeric
+        _(libapt.current_version.priority).must_be_kind_of Numeric
+      end
     end
   end
 

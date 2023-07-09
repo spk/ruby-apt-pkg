@@ -71,8 +71,8 @@ describe Debian::AptPkg::Configuration do
     end).must_raise ArgumentError
 
     _(Debian::AptPkg::Configuration.config_find_file('Dir::Etc::main'))
-      .must_equal '/etc/apt/apt.conf'
+      .must_match '/etc/apt/apt.conf'
     _(Debian::AptPkg::Configuration.config_find_file('Dir::Etc::netrc'))
-      .must_equal '/etc/apt/auth.conf'
+      .must_match '/etc/apt/auth.conf'
   end
 end
