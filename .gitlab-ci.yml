@@ -22,24 +22,20 @@ before_script:
   script: bundle exec rake
   stage: test
 
-test:2.4:
+test:3.0:
   extends: .tests
-  image: 'ruby:2.4'
+  image: 'ruby:3.0'
 
-test:2.5:
+test:3.1:
   extends: .tests
-  image: 'ruby:2.5'
+  image: 'ruby:3.1'
 
-test:2.6:
+test:3.2:
   extends: .tests
-  image: 'ruby:2.6'
-
-test:2.7:
-  extends: .tests
-  image: 'ruby:2.7'
+  image: 'ruby:3.2'
 
 lint:
-  image: 'ruby:2.7-slim'
+  image: 'ruby:3.2-slim'
   before_script:
     - apt-get update -qy
     - apt-get install -y libapt-pkg-dev cppcheck
@@ -52,7 +48,7 @@ lint:
   stage: lint
 
 audit:
-  image: 'ruby:2.7-slim'
+  image: 'ruby:3.2-slim'
   before_script:
     - apt-get update -qy
     - apt-get install -y git
@@ -65,7 +61,7 @@ audit:
   stage: lint
 
 pages:
-  image: 'ruby:2.7-slim'
+  image: 'ruby:3.2-slim'
   before_script:
     - gem install bundler --no-document
     - bundle install --jobs "$(nproc)" "${FLAGS[@]}"
