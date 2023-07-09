@@ -103,25 +103,32 @@ is_multi_arch(VALUE self)
  *
  **/
 static VALUE
-packages(int argc, VALUE *argv, VALUE self)
+packages(VALUE self)
 {
   if (!config_system_initialized()) {
     rb_raise(e_mDebianAptPkgInitError, "System not initialized");
   }
   VALUE result = rb_ary_new();
   pkgCacheFile CacheFile;
-  if (CacheFile.GetPkgCache() == 0) {
+  pkgCache *Cache = CacheFile.GetPkgCache();
+  if (Cache == NULL) {
     return Qnil;
   }
-  for (pkgCache::PkgIterator Pkg = CacheFile.GetPkgCache()->PkgBegin(); not Pkg.end(); ++Pkg) {
+  for (pkgCache::PkgIterator Pkg = Cache->PkgBegin(); not Pkg.end(); ++Pkg) {
     VALUE current_version;
+    VALUE current_version_section;
     if (Pkg->CurrentVer == 0) {
       current_version = Qnil;
     } else {
+      if (Pkg.CurrentVer().Section() != NULL) {
+        current_version_section = rb_str_new2(Pkg.CurrentVer().Section());
+      } else {
+        current_version_section = Qnil;
+      }
       current_version = rb_struct_new(rb_cVersion,
           rb_str_new2(Pkg.CurrentVer().ParentPkg().Name()),
           rb_str_new2(Pkg.CurrentVer().VerStr()),
-          rb_str_new2(Pkg.CurrentVer().Section()),
+          current_version_section,
           rb_str_new2(Pkg.CurrentVer().Arch()),
           INT2FIX(Pkg.CurrentVer()->Size),
           INT2FIX(Pkg.CurrentVer()->InstalledSize),
