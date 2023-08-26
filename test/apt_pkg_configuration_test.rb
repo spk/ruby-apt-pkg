@@ -5,6 +5,12 @@ describe Debian::AptPkg::Configuration do
     Debian::AptPkg.init
   end
 
+  it 'architecture return a string' do
+    arch = Debian::AptPkg::Configuration.architecture
+    _(arch).must_be_instance_of String
+    _(arch).wont_be_empty
+  end
+
   it 'architectures return an array' do
     arches = Debian::AptPkg::Configuration.architectures
     _(arches).must_be_instance_of Array

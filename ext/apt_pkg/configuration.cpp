@@ -1,6 +1,20 @@
 #include "configuration.h"
 
 /*
+ * call-seq: architecture() -> string
+ *
+ * Return the native architecture for this system.
+ *
+ *   Debian::AptPkg::Configuration.architecture # => "amd64"
+ *
+ **/
+static VALUE
+architecture(VALUE self)
+{
+  return rb_str_new2(_config->Find("APT::Architecture").c_str());
+}
+
+/*
  * call-seq: architectures() -> array
  *
  * Return the list of architectures supported on this system.
@@ -170,6 +184,8 @@ init_apt_pkg_configuration()
   VALUE rb_mDebianAptPkgConfiguration =
     rb_define_module_under(rb_mDebianAptPkg, "Configuration");
 
+  rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "architecture",
+                             RUBY_METHOD_FUNC(architecture), 0);
   rb_define_singleton_method(rb_mDebianAptPkgConfiguration, "architectures",
                              RUBY_METHOD_FUNC(architectures), 0);
   rb_define_singleton_method(rb_mDebianAptPkgConfiguration,
