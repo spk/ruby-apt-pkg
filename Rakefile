@@ -38,3 +38,4 @@ task :cppcheck do
 end
 
 task default: ['test:unit', 'test:integration']
+task test: ['test:unit']
